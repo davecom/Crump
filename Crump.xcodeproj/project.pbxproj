@@ -15,9 +15,9 @@
 		550617311960026200E1F0CC /* CrumpTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 550617301960026200E1F0CC /* CrumpTests.swift */; };
 		553DB09019613B9C0053637D /* JapaneseVillage.png in Resources */ = {isa = PBXBuildFile; fileRef = 553DB08E19613B9C0053637D /* JapaneseVillage.png */; };
 		553DB09119613B9C0053637D /* level1.tmx in Resources */ = {isa = PBXBuildFile; fileRef = 553DB08F19613B9C0053637D /* level1.tmx */; };
+		5543EEF7197BABEE0012B318 /* JSTileMap.m in Sources */ = {isa = PBXBuildFile; fileRef = 5543EEF6197BABEE0012B318 /* JSTileMap.m */; };
 		55712B7019663E0400C820A8 /* JapaneseVillage.jp2 in Resources */ = {isa = PBXBuildFile; fileRef = 55712B6F19663E0400C820A8 /* JapaneseVillage.jp2 */; };
 		55C6AFCC196038C0006CDF0C /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 55C6AFCB196038C0006CDF0C /* libz.dylib */; };
-		55C6AFD019603903006CDF0C /* JSTileMap.m in Sources */ = {isa = PBXBuildFile; fileRef = 55C6AFCF19603903006CDF0C /* JSTileMap.m */; };
 		55C6AFD31960390C006CDF0C /* LFCGzipUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = 55C6AFD21960390C006CDF0C /* LFCGzipUtility.m */; };
 /* End PBXBuildFile section */
 
@@ -44,11 +44,11 @@
 		550617301960026200E1F0CC /* CrumpTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CrumpTests.swift; sourceTree = "<group>"; };
 		553DB08E19613B9C0053637D /* JapaneseVillage.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = JapaneseVillage.png; sourceTree = "<group>"; };
 		553DB08F19613B9C0053637D /* level1.tmx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = level1.tmx; sourceTree = "<group>"; };
+		5543EEF5197BABEE0012B318 /* JSTileMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSTileMap.h; sourceTree = "<group>"; };
+		5543EEF6197BABEE0012B318 /* JSTileMap.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSTileMap.m; sourceTree = "<group>"; };
+		5543EEF8197BAC030012B318 /* Crump-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Crump-Bridging-Header.h"; sourceTree = "<group>"; };
 		55712B6F19663E0400C820A8 /* JapaneseVillage.jp2 */ = {isa = PBXFileReference; lastKnownFileType = file; path = JapaneseVillage.jp2; sourceTree = "<group>"; };
 		55C6AFCB196038C0006CDF0C /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
-		55C6AFCD19603903006CDF0C /* Crump-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Crump-Bridging-Header.h"; sourceTree = "<group>"; };
-		55C6AFCE19603903006CDF0C /* JSTileMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSTileMap.h; sourceTree = "<group>"; };
-		55C6AFCF19603903006CDF0C /* JSTileMap.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSTileMap.m; sourceTree = "<group>"; };
 		55C6AFD11960390C006CDF0C /* LFCGzipUtility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LFCGzipUtility.h; sourceTree = "<group>"; };
 		55C6AFD21960390C006CDF0C /* LFCGzipUtility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LFCGzipUtility.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -94,17 +94,17 @@
 		550617161960026200E1F0CC /* Crump */ = {
 			isa = PBXGroup;
 			children = (
+				5543EEF8197BAC030012B318 /* Crump-Bridging-Header.h */,
+				5543EEF5197BABEE0012B318 /* JSTileMap.h */,
+				5543EEF6197BABEE0012B318 /* JSTileMap.m */,
 				553DB08D19613B9C0053637D /* Levels */,
 				55C6AFD11960390C006CDF0C /* LFCGzipUtility.h */,
 				55C6AFD21960390C006CDF0C /* LFCGzipUtility.m */,
-				55C6AFCE19603903006CDF0C /* JSTileMap.h */,
-				55C6AFCF19603903006CDF0C /* JSTileMap.m */,
 				5506171B1960026200E1F0CC /* AppDelegate.swift */,
 				5506171D1960026200E1F0CC /* GameScene.swift */,
 				550617211960026200E1F0CC /* Images.xcassets */,
 				550617231960026200E1F0CC /* MainMenu.xib */,
 				550617171960026200E1F0CC /* Supporting Files */,
-				55C6AFCD19603903006CDF0C /* Crump-Bridging-Header.h */,
 			);
 			path = Crump;
 			sourceTree = "<group>";
@@ -248,10 +248,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				5506171E1960026200E1F0CC /* GameScene.swift in Sources */,
+				5543EEF7197BABEE0012B318 /* JSTileMap.m in Sources */,
 				55C6AFD31960390C006CDF0C /* LFCGzipUtility.m in Sources */,
 				5506171C1960026200E1F0CC /* AppDelegate.swift in Sources */,
 				5506171A1960026200E1F0CC /* main.swift in Sources */,
-				55C6AFD019603903006CDF0C /* JSTileMap.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

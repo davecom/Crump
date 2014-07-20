@@ -5,7 +5,6 @@
 //  Created by Jeremy on 6/11/13.
 //  Copyright (c) 2013 Jeremy. All rights reserved.
 //
-
 #define TARGET_OSX	(TARGET_OS_IPHONE == 0)
 
 #import <SpriteKit/SpriteKit.h>
