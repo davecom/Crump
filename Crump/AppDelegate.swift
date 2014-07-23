@@ -37,14 +37,14 @@ extension SKNode {
 
 class AppDelegate: NSObject, NSApplicationDelegate {
     
-    @IBOutlet var window: NSWindow
-    @IBOutlet var skView: SKView
+    @IBOutlet var window: NSWindow!
+    @IBOutlet var skView: SKView!
     
     func applicationDidFinishLaunching(aNotification: NSNotification?) {
         /* Pick a size for the scene */
             /* Set the scale mode to scale to fit the window */
-        let scene = GameScene(size: CGSizeMake(800, 640), levelToLoad:1)
-        scene.scaleMode = .AspectFit
+        let scene = GameScene(levelToLoad: 1, numPlayers: 1)
+        scene.scaleMode = .Fill
             
         self.skView!.presentScene(scene)
             

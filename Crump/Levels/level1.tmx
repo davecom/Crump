@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.0" orientation="orthogonal" width="25" height="20" tilewidth="32" tileheight="32">
  <tileset firstgid="1" name="Japanese Village" tilewidth="32" tileheight="32">
-  <image source="JapaneseVillage.jp2" width="256" height="1312"/>
+  <image source="JapaneseVillage.png" width="256" height="1312"/>
  </tileset>
  <layer name="Ground" width="25" height="20">
   <data encoding="base64" compression="zlib">
@@ -14,6 +14,6 @@
   </data>
  </layer>
  <objectgroup name="Stuff" width="25" height="20">
-  <object name="Player" gid="106" x="416" y="608"/>
+  <object name="Player1" gid="106" x="416" y="608"/>
  </objectgroup>
 </map>

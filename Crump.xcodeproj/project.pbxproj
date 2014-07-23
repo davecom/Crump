@@ -19,6 +19,7 @@
 		55712B7019663E0400C820A8 /* JapaneseVillage.jp2 in Resources */ = {isa = PBXBuildFile; fileRef = 55712B6F19663E0400C820A8 /* JapaneseVillage.jp2 */; };
 		55C6AFCC196038C0006CDF0C /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 55C6AFCB196038C0006CDF0C /* libz.dylib */; };
 		55C6AFD31960390C006CDF0C /* LFCGzipUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = 55C6AFD21960390C006CDF0C /* LFCGzipUtility.m */; };
+		55C73D4B197E08B0002C1535 /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55C73D4A197E08B0002C1535 /* Player.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -51,6 +52,7 @@
 		55C6AFCB196038C0006CDF0C /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		55C6AFD11960390C006CDF0C /* LFCGzipUtility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LFCGzipUtility.h; sourceTree = "<group>"; };
 		55C6AFD21960390C006CDF0C /* LFCGzipUtility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LFCGzipUtility.m; sourceTree = "<group>"; };
+		55C73D4A197E08B0002C1535 /* Player.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -102,6 +104,7 @@
 				55C6AFD21960390C006CDF0C /* LFCGzipUtility.m */,
 				5506171B1960026200E1F0CC /* AppDelegate.swift */,
 				5506171D1960026200E1F0CC /* GameScene.swift */,
+				55C73D4A197E08B0002C1535 /* Player.swift */,
 				550617211960026200E1F0CC /* Images.xcassets */,
 				550617231960026200E1F0CC /* MainMenu.xib */,
 				550617171960026200E1F0CC /* Supporting Files */,
@@ -251,6 +254,7 @@
 				5543EEF7197BABEE0012B318 /* JSTileMap.m in Sources */,
 				55C6AFD31960390C006CDF0C /* LFCGzipUtility.m in Sources */,
 				5506171C1960026200E1F0CC /* AppDelegate.swift in Sources */,
+				55C73D4B197E08B0002C1535 /* Player.swift in Sources */,
 				5506171A1960026200E1F0CC /* main.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
