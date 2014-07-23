@@ -1,4 +1,5 @@
 /*
+GameScene.swift - Main level loading/general game management routines
 Crump
 Copyright (C) 2014  David Kopec
 
@@ -140,7 +141,7 @@ class GameScene: SKScene, DecisionPointKnowledgeWorker {
                     (wallLayer.tileAt(CGPoint(x: fromLocation.x + tiledMap.tileSize.width, y: tempY )) == nil) ||
                     (wallLayer.tileAt(CGPoint(x: fromLocation.y, y: tempY + tiledMap.tileSize.height)) != nil) {
                     return CGPoint(x: fromLocation.x, y: tempY)
-                } 
+                }
                 tempY += tiledMap.tileSize.height
             }
             return nil
