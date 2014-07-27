@@ -48,12 +48,17 @@ class Player {
     }
     
     private func calcDuration (to:CGPoint) -> NSTimeInterval {
-        let dx = sprite.position.x - to.x
-        let dy = sprite.position.y - to.y
-        return NSTimeInterval(sqrt(dx * dx + dy * dy) * speed)
+        return NSTimeInterval(distance(sprite.position, to) * speed)
     }
     
     func move() {
+        //if off the board, put at the beginning of the other side of it
+        if sprite.position.x < (-sprite.frame.size.width / 2 + 2) {
+            sprite.position.x = dpkw.frame.width + sprite.frame.size.width / 2 - 3
+        } else if sprite.position.x > (dpkw.frame.width + sprite.frame.size.width / 2 - 2) {
+            sprite.position.x = -sprite.frame.size.width / 2 + 3
+        }
+        
         //now we're going in the direction we want to
         if let canI = dpkw.findDecisionPoint(sprite.position, inDirection: wantToGo) {
             println("Found decision point: \(canI)")

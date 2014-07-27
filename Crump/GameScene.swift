@@ -21,6 +21,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 import SpriteKit
 
 protocol DecisionPointKnowledgeWorker {
+    var frame: CGRect { get }
     func findDecisionPoint(fromLocation: CGPoint, inDirection: Direction) -> CGPoint?
 }
 
