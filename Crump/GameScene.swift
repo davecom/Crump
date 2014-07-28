@@ -106,8 +106,14 @@ class GameScene: SKScene, DecisionPointKnowledgeWorker {
         let wallLayer: TMXLayer = tiledMap.layerNamed("Walls")
         switch (inDirection) {
         case .Right:
-            var tempX = round(fromLocation.x) + (tiledMap.tileSize.width - (round(fromLocation.x) % tiledMap.tileSize.width)) + (tiledMap.tileSize.width / 2)
+            var tempX: CGFloat
+            if (fromLocation.x < 0) {  //deal with negative values
+                tempX = tiledMap.tileSize.width / 2
+            } else {
+                tempX = round(fromLocation.x) + (tiledMap.tileSize.width - (round(fromLocation.x) % tiledMap.tileSize.width)) + (tiledMap.tileSize.width / 2)
+            }
             if (wallLayer.tileAt(CGPoint(x: tempX, y: fromLocation.y)) != nil) {
+                println("something here at \(tempX), \(fromLocation.y)!")
                 return nil
             }
             for i in 0...tiledMap.mapSize.width {
@@ -133,7 +139,12 @@ class GameScene: SKScene, DecisionPointKnowledgeWorker {
             }
             return nil
         case .Up:
-            var tempY = round(fromLocation.y) + (tiledMap.tileSize.height - (round(fromLocation.y) % tiledMap.tileSize.height)) + (tiledMap.tileSize.height / 2)
+            var tempY: CGFloat
+            if (fromLocation.y < 0) {  //deal with negative values
+                tempY = tiledMap.tileSize.height / 2
+            } else {
+                tempY = round(fromLocation.y) + (tiledMap.tileSize.height - (round(fromLocation.y) % tiledMap.tileSize.height)) + (tiledMap.tileSize.height / 2)
+            }
             if (wallLayer.tileAt(CGPoint(x: fromLocation.x, y: tempY)) != nil) {
                 return nil
             }

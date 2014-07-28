@@ -85,12 +85,24 @@
 
 - (SKSpriteNode*)tileAt:(CGPoint)point
 {
-  return [self tileAtCoord:[self coordForPoint:point]];
+    //deal with off screen points
+    if (point.x > self.layerWidth) {
+        point.x = self.mapTileSize.width / 2;
+    } else if (point.x < 0) {
+        point.x = self.layerWidth - self.mapTileSize.width / 2;
+    } else if (point.y > self.layerHeight) {
+        point.y = self.mapTileSize.height / 2;
+    } else if (point.y < 0) {
+        point.y = self.layerHeight - self.mapTileSize.height / 2;
+    }
+    
+    return [self tileAtCoord:[self coordForPoint:point]];
 }
 
 - (SKSpriteNode*)tileAtCoord:(CGPoint)coord
 {
   NSString* nodeName = [NSString stringWithFormat:@"*/%d",(int)(coord.x + coord.y * _layerInfo.layerGridSize.width)];
+    //NSLog(@"%@", nodeName);
   return (SKSpriteNode*)[self childNodeWithName:nodeName];
 }
 

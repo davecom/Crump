@@ -53,10 +53,20 @@ class Player {
     
     func move() {
         //if off the board, put at the beginning of the other side of it
+        var tempDirection: Direction = wantToGo
         if sprite.position.x < (-sprite.frame.size.width / 2 + 2) {
             sprite.position.x = dpkw.frame.width + sprite.frame.size.width / 2 - 3
+            wantToGo = .Left
         } else if sprite.position.x > (dpkw.frame.width + sprite.frame.size.width / 2 - 2) {
             sprite.position.x = -sprite.frame.size.width / 2 + 3
+            //println("\(sprite.position)")
+            wantToGo = .Right
+        } else if sprite.position.y < (-sprite.frame.size.height / 2 + 2) {
+            sprite.position.y = dpkw.frame.height + sprite.frame.size.height / 2 - 3
+            wantToGo = .Down
+        } else if sprite.position.y > (dpkw.frame.height + sprite.frame.size.height / 2 - 2) {
+            sprite.position.y = -sprite.frame.size.height / 2 + 3
+            wantToGo = .Up
         }
         
         //now we're going in the direction we want to
@@ -80,5 +90,7 @@ class Player {
         } else {
             direction = .None
         }
+        
+        wantToGo = tempDirection
     }
 }
