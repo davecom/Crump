@@ -51,29 +51,41 @@ class GameScene: SKScene, DecisionPointKnowledgeWorker {
     var tiledMap: JSTileMap
     var level: Int
     var players: [Player] = []
+    var enemies: [Enemy] = []
     //var player: SKSpriteNode
     
     init(levelToLoad: Int, numPlayers: Int) {
         level = levelToLoad
         tiledMap = JSTileMap(named: "level\(level).tmx")
-        let playerLocation = tiledMap.groupNamed("Stuff").objectNamed("Player")
-        println(playerLocation)
+        //let playerLocation = tiledMap.groupNamed("Stuff").objectNamed("Enemy1")
+        //println(playerLocation["type"]!)
         
         super.init(size: CGSizeMake(tiledMap.mapSize.width * tiledMap.tileSize.width, tiledMap.mapSize.height * tiledMap.tileSize.height))
         
+        //preliminary code for future multiplayer support
         for i in 1 ... numPlayers {
             var playerSprite: SKSpriteNode = tiledMap.childNodeWithName("Player\(i)") as SKSpriteNode
             var p = Player(sprite: playerSprite, knowledgeWorker: self, playerNumber: i)
             players += p
         }
         
-        anchorPoint = CGPointMake(0.5, 0.5)
-        let mapBounds = tiledMap.calculateAccumulatedFrame()
-        
         //Swift doesn't have good reflection/introspection yet, so we can't easily create a new class from a String name
         //Instead we resort to this ugly switch
+        for dict in tiledMap.groupNamed("Enemies").objects {
+            switch(dict["type"]! as String) {
+            case "EightBall":
+                let name: String = dict["name"]! as String
+                var enemySprite: SKSpriteNode = tiledMap.childNodeWithName(name) as SKSpriteNode
+                var e = EightBall(sprite: enemySprite, knowledgeWorker: self)
+                enemies.append(e)
+                e.move()
+            default:
+                break
+            }
+        }
         
-        
+        anchorPoint = CGPointMake(0.5, 0.5)
+        let mapBounds = tiledMap.calculateAccumulatedFrame()
         tiledMap.position = CGPointMake(-mapBounds.size.width/2.0, -mapBounds.size.height/2.0);
         //println(tiledMap.)
         addChild(tiledMap)

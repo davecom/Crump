@@ -20,20 +20,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 
 import SpriteKit
 
-class EightBall: Enemy {
+class Enemy: GameCharacter {
     
-    override func move() {
-        switch(arc4random_uniform(4)) {
-        case 0: wantToGo = .Up
-        case 1: wantToGo = .Down
-        case 2: wantToGo = .Left
-        default: wantToGo = .Right
-        }
-        super.move()
-    }
-    
-    override func reachedDeadEnd() {
-        move()      //keep moving when we come to the end of the line
-    }
     
 }

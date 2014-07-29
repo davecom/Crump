@@ -36,6 +36,11 @@ class GameCharacter {
         return NSTimeInterval(distance(sprite.position, to) * speed)
     }
     
+    //hook for subclasses when dead end reached
+    func reachedDeadEnd() {
+        
+    }
+    
     func move() {
         //if off the board, put at the beginning of the other side of it
         var tempDirection: Direction = wantToGo
@@ -74,6 +79,7 @@ class GameCharacter {
                 })]))
         } else {
             direction = .None
+            reachedDeadEnd()
         }
         
         wantToGo = tempDirection
