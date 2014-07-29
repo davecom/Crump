@@ -20,19 +20,12 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 
 import SpriteKit
 
-class Player {
-    var sprite: SKSpriteNode
+class Player: GameCharacter {
     var score: Int = 0
-    var direction: Direction = .None
-    var wantToGo: Direction = .None  //where trying to go after next decision point
     //var playerNumber: Int  //player 1, player 2, etc mostly for key binding
     var keyBindings: [String: Direction] = Dictionary<String, Direction>()
-    let dpkw: DecisionPointKnowledgeWorker
-    var speed: CGFloat = CGFloat(0.01)  // seconds per pixel
     
-    init(sprite: SKSpriteNode, playerNumber: Int, knowledgeWorker: DecisionPointKnowledgeWorker) {
-        self.sprite = sprite
-        self.dpkw = knowledgeWorker
+    init(sprite: SKSpriteNode, knowledgeWorker: DecisionPointKnowledgeWorker, playerNumber: Int) {
         //self.playerNumber = playerNumber
         if let tempKeyBindings = NSUserDefaults.standardUserDefaults().dictionaryForKey("player\(playerNumber)KeyBindings"){
             for (key, value) in tempKeyBindings {
@@ -45,52 +38,7 @@ class Player {
                 keyBindings = ["4": .Left, "8": .Up, "5": .Down, "6": .Right]
             }
         }
+        super.init(sprite: sprite, knowledgeWorker: knowledgeWorker)
     }
-    
-    private func calcDuration (to:CGPoint) -> NSTimeInterval {
-        return NSTimeInterval(distance(sprite.position, to) * speed)
-    }
-    
-    func move() {
-        //if off the board, put at the beginning of the other side of it
-        var tempDirection: Direction = wantToGo
-        if sprite.position.x < (-sprite.frame.size.width / 2 + 2) {
-            sprite.position.x = dpkw.frame.width + sprite.frame.size.width / 2 - 3
-            wantToGo = .Left
-        } else if sprite.position.x > (dpkw.frame.width + sprite.frame.size.width / 2 - 2) {
-            sprite.position.x = -sprite.frame.size.width / 2 + 3
-            //println("\(sprite.position)")
-            wantToGo = .Right
-        } else if sprite.position.y < (-sprite.frame.size.height / 2 + 2) {
-            sprite.position.y = dpkw.frame.height + sprite.frame.size.height / 2 - 3
-            wantToGo = .Down
-        } else if sprite.position.y > (dpkw.frame.height + sprite.frame.size.height / 2 - 2) {
-            sprite.position.y = -sprite.frame.size.height / 2 + 3
-            wantToGo = .Up
-        }
-        
-        //now we're going in the direction we want to
-        if let canI = dpkw.findDecisionPoint(sprite.position, inDirection: wantToGo) {
-            println("Found decision point: \(canI)")
-            sprite.removeAllActions()
-            direction = wantToGo;
-            //rotate to be the right direction
-            sprite.runAction(SKAction.rotateToAngle(direction.radians, duration: 0.1, shortestUnitArc: true))
-            sprite.runAction(SKAction.sequence([SKAction.moveTo(canI, duration: calcDuration(canI)), SKAction.runBlock({
-                self.move()
-            })]))
-        } else if let canI = dpkw.findDecisionPoint(sprite.position, inDirection: direction) {
-            println("Found decision point: \(canI)")
-            sprite.removeAllActions()
-            //rotate to be the right direction
-            sprite.runAction(SKAction.rotateToAngle(direction.radians, duration: 0.1, shortestUnitArc: true))
-            sprite.runAction(SKAction.sequence([SKAction.moveTo(canI, duration: calcDuration(canI)), SKAction.runBlock({
-                self.move()
-                })]))
-        } else {
-            direction = .None
-        }
-        
-        wantToGo = tempDirection
-    }
+
 }

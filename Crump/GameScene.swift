@@ -63,12 +63,16 @@ class GameScene: SKScene, DecisionPointKnowledgeWorker {
         
         for i in 1 ... numPlayers {
             var playerSprite: SKSpriteNode = tiledMap.childNodeWithName("Player\(i)") as SKSpriteNode
-            var p = Player(sprite: playerSprite, playerNumber: i, knowledgeWorker: self)
+            var p = Player(sprite: playerSprite, knowledgeWorker: self, playerNumber: i)
             players += p
         }
         
         anchorPoint = CGPointMake(0.5, 0.5)
         let mapBounds = tiledMap.calculateAccumulatedFrame()
+        
+        //Swift doesn't have good reflection/introspection yet, so we can't easily create a new class from a String name
+        //Instead we resort to this ugly switch
+        
         
         tiledMap.position = CGPointMake(-mapBounds.size.width/2.0, -mapBounds.size.height/2.0);
         //println(tiledMap.)
