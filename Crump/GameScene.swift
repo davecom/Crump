@@ -22,6 +22,7 @@ import SpriteKit
 
 protocol DecisionPointKnowledgeWorker {
     var frame: CGRect { get }
+    var playersLocation: [CGPoint] { get }  //location of player(s) on screen
     func findDecisionPoint(fromLocation: CGPoint, inDirection: Direction) -> CGPoint?
 }
 
@@ -52,7 +53,13 @@ class GameScene: SKScene, DecisionPointKnowledgeWorker {
     var level: Int
     var players: [Player] = []
     var enemies: [Enemy] = []
-    //var player: SKSpriteNode
+
+    //location of all of the players
+    var playersLocation: [CGPoint] {
+        return players.map{ (var p) -> CGPoint in
+            return p.sprite.position
+        }
+    }
     
     init(levelToLoad: Int, numPlayers: Int) {
         level = levelToLoad
