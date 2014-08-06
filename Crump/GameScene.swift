@@ -61,6 +61,10 @@ class GameScene: SKScene, DecisionPointKnowledgeWorker {
         }
     }
     
+    required init(coder: NSCoder) {
+        fatalError("NSCoding not supported")
+    }
+    
     init(levelToLoad: Int, numPlayers: Int) {
         level = levelToLoad
         tiledMap = JSTileMap(named: "level\(level).tmx")
@@ -73,7 +77,7 @@ class GameScene: SKScene, DecisionPointKnowledgeWorker {
         for i in 1 ... numPlayers {
             var playerSprite: SKSpriteNode = tiledMap.childNodeWithName("Player\(i)") as SKSpriteNode
             var p = Player(sprite: playerSprite, knowledgeWorker: self, playerNumber: i)
-            players += p
+            players.append(p)
         }
         
         //Swift doesn't have good reflection/introspection yet, so we can't easily create a new class from a String name
@@ -139,7 +143,7 @@ class GameScene: SKScene, DecisionPointKnowledgeWorker {
                 println("something here at \(tempX), \(fromLocation.y)!")
                 return nil
             }
-            for i in 0...tiledMap.mapSize.width {
+            for i in 0 ... tiledMap.mapSize.width {
                 if (wallLayer.tileAt(CGPoint(x: tempX, y: fromLocation.y - tiledMap.tileSize.height)) == nil) || (wallLayer.tileAt(CGPoint(x: tempX, y: fromLocation.y + tiledMap.tileSize.height)) == nil) || (wallLayer.tileAt(CGPoint(x: tempX + tiledMap.tileSize.width, y: fromLocation.y)) != nil) {
                     return CGPoint(x: tempX, y: fromLocation.y)
                 }
@@ -154,7 +158,7 @@ class GameScene: SKScene, DecisionPointKnowledgeWorker {
             if (wallLayer.tileAt(CGPoint(x: tempX, y: fromLocation.y)) != nil) {
                 return nil
             }
-            for i in 0...tiledMap.mapSize.width {
+            for i in 0 ... tiledMap.mapSize.width {
                 if (wallLayer.tileAt(CGPoint(x: tempX, y: fromLocation.y - tiledMap.tileSize.height)) == nil) || (wallLayer.tileAt(CGPoint(x: tempX, y: fromLocation.y + tiledMap.tileSize.height)) == nil) || (wallLayer.tileAt(CGPoint(x: tempX - tiledMap.tileSize.width, y: fromLocation.y)) != nil) {
                     return CGPoint(x: tempX, y: fromLocation.y)
                 }
@@ -171,7 +175,7 @@ class GameScene: SKScene, DecisionPointKnowledgeWorker {
             if (wallLayer.tileAt(CGPoint(x: fromLocation.x, y: tempY)) != nil) {
                 return nil
             }
-            for i in 0...tiledMap.mapSize.height {
+            for i in 0 ... tiledMap.mapSize.height {
                 if (wallLayer.tileAt(CGPoint(x: fromLocation.x - tiledMap.tileSize.width, y: tempY)) == nil) ||
                     (wallLayer.tileAt(CGPoint(x: fromLocation.x + tiledMap.tileSize.width, y: tempY )) == nil) ||
                     (wallLayer.tileAt(CGPoint(x: fromLocation.y, y: tempY + tiledMap.tileSize.height)) != nil) {
@@ -188,7 +192,7 @@ class GameScene: SKScene, DecisionPointKnowledgeWorker {
             if (wallLayer.tileAt(CGPoint(x: fromLocation.x, y: tempY)) != nil) {
                 return nil
             }
-            for i in 0...tiledMap.mapSize.height {
+            for i in 0 ... tiledMap.mapSize.height {
                 if (wallLayer.tileAt(CGPoint(x: fromLocation.x - tiledMap.tileSize.width, y: tempY)) == nil) ||
                     (wallLayer.tileAt(CGPoint(x: fromLocation.x + tiledMap.tileSize.width, y: tempY )) == nil) ||
                     (wallLayer.tileAt(CGPoint(x: fromLocation.y, y: tempY - tiledMap.tileSize.height)) != nil) {
