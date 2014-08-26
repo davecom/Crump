@@ -39,10 +39,10 @@ enum Direction : String {
     }
     var radians: CGFloat {
         switch(self) {
-        case (.Left): return CGFloat(M_PI)
-        case (.Right): return 0
-        case (.Up): return CGFloat(M_PI / 2)
-        case (.Down): return CGFloat(M_PI * (3 / 2))
+        case (.Left): return CGFloat(M_PI / 2)
+        case (.Right): return CGFloat(M_PI * (3 / 2))
+        case (.Up): return 0
+        case (.Down): return CGFloat(M_PI)
         default: return 0
             }
     }

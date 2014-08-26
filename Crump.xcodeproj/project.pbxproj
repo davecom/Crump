@@ -15,9 +15,9 @@
 		550617311960026200E1F0CC /* CrumpTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 550617301960026200E1F0CC /* CrumpTests.swift */; };
 		551C593719876503000E067F /* GameCharacter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 551C593619876503000E067F /* GameCharacter.swift */; };
 		551C593919877902000E067F /* EightBall.swift in Sources */ = {isa = PBXBuildFile; fileRef = 551C593819877902000E067F /* EightBall.swift */; };
-		553DB09019613B9C0053637D /* JapaneseVillage.png in Resources */ = {isa = PBXBuildFile; fileRef = 553DB08E19613B9C0053637D /* JapaneseVillage.png */; };
 		553DB09119613B9C0053637D /* level1.tmx in Resources */ = {isa = PBXBuildFile; fileRef = 553DB08F19613B9C0053637D /* level1.tmx */; };
-		55712B7019663E0400C820A8 /* JapaneseVillage.jp2 in Resources */ = {isa = PBXBuildFile; fileRef = 55712B6F19663E0400C820A8 /* JapaneseVillage.jp2 */; };
+		5568974219AC47F900751175 /* tileset.png in Resources */ = {isa = PBXBuildFile; fileRef = 5568974019AC47F900751175 /* tileset.png */; };
+		55A3D1C919A7FC5600172F16 /* Sun.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55A3D1C819A7FC5600172F16 /* Sun.swift */; };
 		55AB6D12197F8A55009FED3F /* JSTileMap.m in Sources */ = {isa = PBXBuildFile; fileRef = 55AB6D0F197F8A55009FED3F /* JSTileMap.m */; };
 		55AB6D13197F8A55009FED3F /* LFCGzipUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = 55AB6D11197F8A55009FED3F /* LFCGzipUtility.m */; };
 		55AB6D15197F8BA4009FED3F /* Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55AB6D14197F8BA4009FED3F /* Util.swift */; };
@@ -49,10 +49,10 @@
 		550617301960026200E1F0CC /* CrumpTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CrumpTests.swift; sourceTree = "<group>"; };
 		551C593619876503000E067F /* GameCharacter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameCharacter.swift; sourceTree = "<group>"; };
 		551C593819877902000E067F /* EightBall.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EightBall.swift; sourceTree = "<group>"; };
-		553DB08E19613B9C0053637D /* JapaneseVillage.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = JapaneseVillage.png; sourceTree = "<group>"; };
 		553DB08F19613B9C0053637D /* level1.tmx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = level1.tmx; sourceTree = "<group>"; };
 		5543EEF8197BAC030012B318 /* Crump-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Crump-Bridging-Header.h"; sourceTree = "<group>"; };
-		55712B6F19663E0400C820A8 /* JapaneseVillage.jp2 */ = {isa = PBXFileReference; lastKnownFileType = file; path = JapaneseVillage.jp2; sourceTree = "<group>"; };
+		5568974019AC47F900751175 /* tileset.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tileset.png; sourceTree = "<group>"; };
+		55A3D1C819A7FC5600172F16 /* Sun.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Sun.swift; sourceTree = "<group>"; };
 		55AB6D0E197F8A55009FED3F /* JSTileMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSTileMap.h; sourceTree = "<group>"; };
 		55AB6D0F197F8A55009FED3F /* JSTileMap.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSTileMap.m; sourceTree = "<group>"; };
 		55AB6D10197F8A55009FED3F /* LFCGzipUtility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LFCGzipUtility.h; sourceTree = "<group>"; };
@@ -111,6 +111,7 @@
 				5506171D1960026200E1F0CC /* GameScene.swift */,
 				55C5A52D198786B100BC38FD /* Enemy.swift */,
 				551C593819877902000E067F /* EightBall.swift */,
+				55A3D1C819A7FC5600172F16 /* Sun.swift */,
 				551C593619876503000E067F /* GameCharacter.swift */,
 				55C73D4A197E08B0002C1535 /* Player.swift */,
 				55AB6D14197F8BA4009FED3F /* Util.swift */,
@@ -150,8 +151,7 @@
 		553DB08D19613B9C0053637D /* Levels */ = {
 			isa = PBXGroup;
 			children = (
-				55712B6F19663E0400C820A8 /* JapaneseVillage.jp2 */,
-				553DB08E19613B9C0053637D /* JapaneseVillage.png */,
+				5568974019AC47F900751175 /* tileset.png */,
 				553DB08F19613B9C0053637D /* level1.tmx */,
 			);
 			path = Levels;
@@ -248,11 +248,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5568974219AC47F900751175 /* tileset.png in Resources */,
 				550617221960026200E1F0CC /* Images.xcassets in Resources */,
 				550617251960026200E1F0CC /* MainMenu.xib in Resources */,
 				553DB09119613B9C0053637D /* level1.tmx in Resources */,
-				55712B7019663E0400C820A8 /* JapaneseVillage.jp2 in Resources */,
-				553DB09019613B9C0053637D /* JapaneseVillage.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -273,6 +272,7 @@
 				551C593919877902000E067F /* EightBall.swift in Sources */,
 				5506171E1960026200E1F0CC /* GameScene.swift in Sources */,
 				55AB6D12197F8A55009FED3F /* JSTileMap.m in Sources */,
+				55A3D1C919A7FC5600172F16 /* Sun.swift in Sources */,
 				5506171C1960026200E1F0CC /* AppDelegate.swift in Sources */,
 				55C73D4B197E08B0002C1535 /* Player.swift in Sources */,
 				55AB6D15197F8BA4009FED3F /* Util.swift in Sources */,

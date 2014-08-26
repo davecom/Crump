@@ -1,22 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.0" orientation="orthogonal" width="25" height="20" tilewidth="32" tileheight="32">
- <tileset firstgid="1" name="Japanese Village" tilewidth="32" tileheight="32">
-  <image source="JapaneseVillage.png" width="256" height="1312"/>
+ <tileset firstgid="1" name="tileset" tilewidth="32" tileheight="32">
+  <image source="tileset.png" width="320" height="640"/>
  </tileset>
  <layer name="Ground" width="25" height="20">
   <data encoding="base64" compression="zlib">
-   eJwTZGBgEBzFo3gUj+JRPIpH8ZDGAAT2ITU=
+   eJwTY2BgEBvFo3gUj+JRPIpH8ZDGAEBYKvk=
   </data>
  </layer>
  <layer name="Walls" width="25" height="20">
   <data encoding="base64" compression="zlib">
-   eJxjYKAvYGTEjdHlBzPA5w9s/qI3EKVQvxMajQ0oUWiHFxpNCzsGyh8sQMwKxGxE2EFMGsHmDx4g5gViPhLswGcXpfFBjB3o/lDHglUptAPdH9JYsC5ULhiNRreDGvk6Go0m5H5CgBMLTobKJUP5yHbQsnwiJj5wAWz+QI4PWvmD2vGBDcDiA90OWtQHyUhsAE71DJk=
+   eJzNlcEKACEIRG3r1rn//9WIpUVCadSIfRB1mJpGoTIRZcco9PIA2hsk4T5Fl396y/lrlsbWSB2k+nGq4LGjOvTTY3fnwvYMpBpLI5IDzRP1QHNHczRNeNBjkpT5hAfS813WlalHe249n4P2fGB9G7gHQjJovR715x5oLyMeKLc8PP+s9a/tdasDXw==
   </data>
  </layer>
  <objectgroup name="Stuff" width="25" height="20">
-  <object name="Player1" type="Player" gid="106" x="416" y="608"/>
+  <object name="Player1" type="Player" gid="43" x="384" y="608"/>
  </objectgroup>
  <objectgroup name="Enemies" width="25" height="20">
-  <object name="Enemy1" type="EightBall" gid="58" x="640" y="96"/>
+  <object name="Enemy1" type="EightBall" gid="34" x="544" y="96"/>
+  <object name="Enemy2" type="Sun" gid="33" x="96" y="128"/>
  </objectgroup>
 </map>
