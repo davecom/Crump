@@ -23,6 +23,7 @@ import SpriteKit
 class Sun: Enemy {
     
     override func move() {
+        //find closest player to gravitate towards
         var closestP:CGPoint = dpkw.playersLocation[0]
         for var i:Int = 1; i < dpkw.playersLocation.count; i++ {
             if distance(sprite.position, dpkw.playersLocation[i]) < distance(sprite.position, closestP) {
@@ -30,12 +31,30 @@ class Sun: Enemy {
             }
         }
         
-        switch(arc4random_uniform(4)) {
-        case 0: wantToGo = .Up
-        case 1: wantToGo = .Down
-        case 2: wantToGo = .Left
-        default: wantToGo = .Right
+        var wantToGoVertical: Direction = .None
+        var wantToGoHorizontal: Direction = .None
+        if closestP.x < sprite.position.x {
+            wantToGoHorizontal = .Left
+        } else if closestP.x > sprite.position.x {
+            wantToGoHorizontal = .Right
         }
+        if closestP.y < sprite.position.y {
+            wantToGoVertical = .Down
+        } else if closestP.y > sprite.position.y {
+            wantToGoVertical = .Up
+        }
+        
+        if let tempD = dpkw.findDecisionPoint(sprite.position, inDirection: wantToGoHorizontal) {
+            wantToGo = wantToGoHorizontal
+        } else if let tempD = dpkw.findDecisionPoint(sprite.position, inDirection: wantToGoVertical) {
+            wantToGo = wantToGoVertical
+        } else { //just go random direction of the remaining
+            switch(arc4random_uniform(2)) {
+            case 0: wantToGo = wantToGoHorizontal.opposite
+            default: wantToGo = wantToGoVertical.opposite
+            }
+        }
+        
         super.move()
     }
     

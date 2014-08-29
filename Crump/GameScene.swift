@@ -84,10 +84,16 @@ class GameScene: SKScene, DecisionPointKnowledgeWorker {
         //Instead we resort to this ugly switch
         for dict in tiledMap.groupNamed("Enemies").objects {
             switch(dict["type"]! as String) {
-            case "EightBallz":
+            case "EightBall":
                 let name: String = dict["name"]! as String
                 var enemySprite: SKSpriteNode = tiledMap.childNodeWithName(name) as SKSpriteNode
                 var e = EightBall(sprite: enemySprite, knowledgeWorker: self)
+                enemies.append(e)
+                e.move()
+            case "Sun":
+                let name: String = dict["name"]! as String
+                var enemySprite: SKSpriteNode = tiledMap.childNodeWithName(name) as SKSpriteNode
+                var e = Sun(sprite: enemySprite, knowledgeWorker: self)
                 enemies.append(e)
                 e.move()
             default:
@@ -140,8 +146,10 @@ class GameScene: SKScene, DecisionPointKnowledgeWorker {
                 tempX = round(fromLocation.x) + (tiledMap.tileSize.width - (round(fromLocation.x) % tiledMap.tileSize.width)) + (tiledMap.tileSize.width / 2)
             }
             if (wallLayer.tileAt(CGPoint(x: tempX, y: fromLocation.y)) != nil) {
-                println("something here at \(tempX), \(fromLocation.y)!")
+                //println("something here at \(tempX), \(fromLocation.y)!")
                 return nil
+            } else if (tempX > tiledMap.mapSize.width - tiledMap.tileSize.width) {  //deal with edge of board
+                return CGPoint(x: tempX, y: fromLocation.y)
             }
             for var i:CGFloat = 0; i <= tiledMap.mapSize.width; i++ {
                 if (wallLayer.tileAt(CGPoint(x: tempX, y: fromLocation.y - tiledMap.tileSize.height)) == nil) || (wallLayer.tileAt(CGPoint(x: tempX, y: fromLocation.y + tiledMap.tileSize.height)) == nil) || (wallLayer.tileAt(CGPoint(x: tempX + tiledMap.tileSize.width, y: fromLocation.y)) != nil) {
@@ -157,6 +165,8 @@ class GameScene: SKScene, DecisionPointKnowledgeWorker {
             }
             if (wallLayer.tileAt(CGPoint(x: tempX, y: fromLocation.y)) != nil) {
                 return nil
+            } else if (tempX < tiledMap.tileSize.width) {  //deal with edge of board
+                return CGPoint(x: tempX, y: fromLocation.y)
             }
             for var i:CGFloat = 0; i <= tiledMap.mapSize.width; i++ {
                 if (wallLayer.tileAt(CGPoint(x: tempX, y: fromLocation.y - tiledMap.tileSize.height)) == nil) || (wallLayer.tileAt(CGPoint(x: tempX, y: fromLocation.y + tiledMap.tileSize.height)) == nil) || (wallLayer.tileAt(CGPoint(x: tempX - tiledMap.tileSize.width, y: fromLocation.y)) != nil) {
@@ -174,6 +184,8 @@ class GameScene: SKScene, DecisionPointKnowledgeWorker {
             }
             if (wallLayer.tileAt(CGPoint(x: fromLocation.x, y: tempY)) != nil) {
                 return nil
+            } else if (tempY > tiledMap.mapSize.height - tiledMap.tileSize.height) {  //deal with edge of board
+                return CGPoint(x: fromLocation.x, y: tempY)
             }
             for var i:CGFloat = 0; i <= tiledMap.mapSize.height; i++ {
                 if (wallLayer.tileAt(CGPoint(x: fromLocation.x - tiledMap.tileSize.width, y: tempY)) == nil) ||
@@ -190,13 +202,15 @@ class GameScene: SKScene, DecisionPointKnowledgeWorker {
                 
                 tempY -= tiledMap.tileSize.height
             }
-            println("Testing wallLayer at \(tempY)");
+            //println("Testing wallLayer at \(tempY)");
             if (wallLayer.tileAt(CGPoint(x: fromLocation.x, y: tempY)) != nil) {
-                println("something here at \(fromLocation.x), \(tempY))!")
+                //println("something here at \(fromLocation.x), \(tempY))!")
                 return nil
+            } else if (tempY < tiledMap.tileSize.height) {  //deal with edge of board
+                return CGPoint(x: fromLocation.x, y: tempY)
             }
             for var i:CGFloat = 0; i <= tiledMap.mapSize.height; i++ {
-                println("Testing \(tempY)");
+                //println("Testing \(tempY)");
                 if (wallLayer.tileAt(CGPoint(x: fromLocation.x - tiledMap.tileSize.width, y: tempY)) == nil) ||
                     (wallLayer.tileAt(CGPoint(x: fromLocation.x + tiledMap.tileSize.width, y: tempY )) == nil) ||
                     (wallLayer.tileAt(CGPoint(x: fromLocation.x, y: tempY - tiledMap.tileSize.height)) != nil) {
