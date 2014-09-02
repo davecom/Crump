@@ -129,7 +129,7 @@ class GameScene: SKScene, DecisionPointKnowledgeWorker {
             addChild(myLabel)
         } else {
             let myLabel = childNodeWithName("Paused")
-            myLabel.removeFromParent()
+            myLabel!.removeFromParent()
         }
         paused = !paused
     }
