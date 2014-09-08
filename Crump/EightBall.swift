@@ -32,8 +32,4 @@ class EightBall: Enemy {
         super.move()
     }
     
-    override func reachedDeadEnd() {
-        move()      //keep moving when we come to the end of the line
-    }
-    
 }

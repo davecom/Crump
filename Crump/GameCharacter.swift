@@ -38,7 +38,7 @@ class GameCharacter {
     
     //hook for subclasses when dead end reached
     func reachedDeadEnd() {
-        
+        return
     }
     
     func move() {

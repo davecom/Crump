@@ -53,6 +53,7 @@ class GameScene: SKScene, DecisionPointKnowledgeWorker {
     var level: Int
     var players: [Player] = []
     var enemies: [Enemy] = []
+    let wallLayer: TMXLayer
 
     //location of all of the players
     var playersLocation: [CGPoint] {
@@ -68,6 +69,7 @@ class GameScene: SKScene, DecisionPointKnowledgeWorker {
     init(levelToLoad: Int, numPlayers: Int) {
         level = levelToLoad
         tiledMap = JSTileMap(named: "level\(level).tmx")
+        wallLayer = tiledMap.layerNamed("Walls")
         //let playerLocation = tiledMap.groupNamed("Stuff").objectNamed("Enemy1")
         //println(playerLocation["type"]!)
         
@@ -136,7 +138,7 @@ class GameScene: SKScene, DecisionPointKnowledgeWorker {
     
     //find the next place where moving in the current direction
     func findDecisionPoint(fromLocation: CGPoint, inDirection: Direction) -> CGPoint? {
-        let wallLayer: TMXLayer = tiledMap.layerNamed("Walls")
+        
         switch (inDirection) {
         case .Right:
             var tempX: CGFloat

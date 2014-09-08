@@ -44,7 +44,14 @@ class Sun: Enemy {
             wantToGoVertical = .Up
         }
         
-        if let tempD = dpkw.findDecisionPoint(sprite.position, inDirection: wantToGoHorizontal) {
+        if (closestP.x == sprite.position.x && closestP.y == sprite.position.y) {  //avoid crash when on top of the player
+            switch(arc4random_uniform(4)) {
+            case 0: wantToGo = .Up
+            case 1: wantToGo = .Down
+            case 2: wantToGo = .Left
+            default: wantToGo = .Right
+            }
+        } else if let tempD = dpkw.findDecisionPoint(sprite.position, inDirection: wantToGoHorizontal) {
             wantToGo = wantToGoHorizontal
         } else if let tempD = dpkw.findDecisionPoint(sprite.position, inDirection: wantToGoVertical) {
             wantToGo = wantToGoVertical
@@ -53,14 +60,18 @@ class Sun: Enemy {
             case 0: wantToGo = wantToGoHorizontal.opposite
             default: wantToGo = wantToGoVertical.opposite
             }
+            
+            if wantToGo == .None {
+                switch(arc4random_uniform(4)) {
+                case 0: wantToGo = .Up
+                case 1: wantToGo = .Down
+                case 2: wantToGo = .Left
+                default: wantToGo = .Right
+                }
+            }
         }
         
         super.move()
-    }
-    
-    override func reachedDeadEnd() {
-        wantToGo = direction.opposite
-        super.move()      //keep moving when we come to the end of the line
     }
     
 }

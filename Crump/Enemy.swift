@@ -21,6 +21,10 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 import SpriteKit
 
 class Enemy: GameCharacter {
-    
+    override func reachedDeadEnd() {
+        println("\(wantToGo.toRaw())")
+        println("\(direction.toRaw())")
+        move()      //keep moving when we come to the end of the line
+    }
     
 }
