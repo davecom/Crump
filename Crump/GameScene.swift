@@ -48,7 +48,15 @@ enum Direction : String {
     }
 }
 
-class GameScene: SKScene, DecisionPointKnowledgeWorker {
+struct PhysicsCategory {
+    static let None : UInt32 = 0
+    static let All : UInt32 = UInt32.max
+    static let Enemy : UInt32 = 1
+    static let Projectile: UInt32 = 2
+    static let Player: UInt32 = 3
+}
+
+class GameScene: SKScene, DecisionPointKnowledgeWorker, SKPhysicsContactDelegate {
     var tiledMap: JSTileMap
     var level: Int
     var players: [Player] = []
@@ -74,6 +82,9 @@ class GameScene: SKScene, DecisionPointKnowledgeWorker {
         //println(playerLocation["type"]!)
         
         super.init(size: CGSizeMake(tiledMap.mapSize.width * tiledMap.tileSize.width, tiledMap.mapSize.height * tiledMap.tileSize.height))
+        
+        self.physicsWorld.gravity = CGVectorMake(0, 0)
+        self.physicsWorld.contactDelegate = self
         
         //preliminary code for future multiplayer support
         for i in 1 ... numPlayers {
@@ -232,7 +243,7 @@ class GameScene: SKScene, DecisionPointKnowledgeWorker {
     }
     
     override func keyDown(theEvent: NSEvent) {
-        let temp: String = theEvent.characters
+        let temp: String = theEvent.characters!
         for letter in temp {
             switch (letter) {
             case "p":
@@ -256,5 +267,17 @@ class GameScene: SKScene, DecisionPointKnowledgeWorker {
     
     override func update(currentTime: CFTimeInterval) {
         /* Called before each frame is rendered */
+    }
+    
+    //MARK: SKPhysics Delegate
+    //var times: Int = 1
+    func didBeginContact(contact: SKPhysicsContact) {
+        let a: SKPhysicsBody = contact.bodyA
+        let b: SKPhysicsBody = contact.bodyB
+        if (a.categoryBitMask == PhysicsCategory.Player) {
+            //println("Player hit something \(times)")
+            //times++
+            return
+        }
     }
 }

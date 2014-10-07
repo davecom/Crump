@@ -29,7 +29,7 @@ class Player: GameCharacter {
         //self.playerNumber = playerNumber
         if let tempKeyBindings = NSUserDefaults.standardUserDefaults().dictionaryForKey("player\(playerNumber)KeyBindings"){
             for (key, value) in tempKeyBindings {
-                keyBindings[(key as String)] = Direction.fromRaw(value as String)
+                keyBindings[(key as String)] = Direction(rawValue: value as String)
             }
         } else { //if we don't have keybindings set defaults
             if playerNumber == 1 {
@@ -38,7 +38,7 @@ class Player: GameCharacter {
                 keyBindings = ["4": .Left, "8": .Up, "5": .Down, "6": .Right]
             }
         }
-        super.init(sprite: sprite, knowledgeWorker: knowledgeWorker)
+        super.init(sprite: sprite, knowledgeWorker: knowledgeWorker, categoryBitMask: PhysicsCategory.Player, contactTestBitMask: PhysicsCategory.Enemy)
     }
 
 }

@@ -27,9 +27,14 @@ class GameCharacter {
     let dpkw: DecisionPointKnowledgeWorker
     var speed: CGFloat = CGFloat(0.01)  // seconds per pixel
     
-    init(sprite: SKSpriteNode, knowledgeWorker: DecisionPointKnowledgeWorker) {
+    init(sprite: SKSpriteNode, knowledgeWorker: DecisionPointKnowledgeWorker, categoryBitMask: UInt32, contactTestBitMask: UInt32) {
         self.sprite = sprite
         self.dpkw = knowledgeWorker
+        self.sprite.physicsBody = SKPhysicsBody(rectangleOfSize: self.sprite.size)
+        self.sprite.physicsBody?.dynamic = true
+        self.sprite.physicsBody?.categoryBitMask = categoryBitMask
+        self.sprite.physicsBody?.contactTestBitMask = contactTestBitMask
+        self.sprite.physicsBody?.collisionBitMask = 0
     }
     
     private func calcDuration (to:CGPoint) -> NSTimeInterval {
@@ -61,7 +66,7 @@ class GameCharacter {
         
         //now we're going in the direction we want to
         if let canI = dpkw.findDecisionPoint(sprite.position, inDirection: wantToGo) {
-            println("Found decision point: \(canI)")
+            //println("Found decision point: \(canI)")
             sprite.removeAllActions()
             direction = wantToGo;
             //rotate to be the right direction
@@ -70,7 +75,7 @@ class GameCharacter {
                 self.move()
                 })]))
         } else if let canI = dpkw.findDecisionPoint(sprite.position, inDirection: direction) {
-            println("Found decision point: \(canI)")
+            //println("Found decision point: \(canI)")
             sprite.removeAllActions()
             //rotate to be the right direction
             sprite.runAction(SKAction.rotateToAngle(direction.radians, duration: 0.1, shortestUnitArc: true))

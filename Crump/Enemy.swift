@@ -21,9 +21,14 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 import SpriteKit
 
 class Enemy: GameCharacter {
+    init(sprite: SKSpriteNode, knowledgeWorker: DecisionPointKnowledgeWorker) {
+        super.init(sprite: sprite, knowledgeWorker: knowledgeWorker, categoryBitMask: PhysicsCategory.Enemy, contactTestBitMask: PhysicsCategory.None)
+    }
+
+    
     override func reachedDeadEnd() {
-        println("\(wantToGo.toRaw())")
-        println("\(direction.toRaw())")
+        //println("\(wantToGo.rawValue)")
+        //println("\(direction.rawValue)")
         move()      //keep moving when we come to the end of the line
     }
     
