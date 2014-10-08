@@ -80,7 +80,7 @@ class GameScene: SKScene, DecisionPointKnowledgeWorker, SKPhysicsContactDelegate
         wallLayer = tiledMap.layerNamed("Walls")
         //let playerLocation = tiledMap.groupNamed("Stuff").objectNamed("Enemy1")
         //println(playerLocation["type"]!)
-        
+        println("\(tiledMap.mapSize.width * tiledMap.tileSize.width) x \(tiledMap.mapSize.height * tiledMap.tileSize.height)")
         super.init(size: CGSizeMake(tiledMap.mapSize.width * tiledMap.tileSize.width, tiledMap.mapSize.height * tiledMap.tileSize.height))
         
         self.physicsWorld.gravity = CGVectorMake(0, 0)

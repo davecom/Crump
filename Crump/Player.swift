@@ -22,6 +22,7 @@ import SpriteKit
 
 class Player: GameCharacter {
     var score: Int = 0
+    var lives: Int = 3
     //var playerNumber: Int  //player 1, player 2, etc mostly for key binding
     var keyBindings: [String: Direction] = Dictionary<String, Direction>()
     
