@@ -24,24 +24,25 @@ import SpriteKit
 extension SKNode {
     class func unarchiveFromFile(file : NSString) -> SKNode? {
         
-        let path = NSBundle.mainBundle().pathForResource(file, ofType: "sks")
+        let path = NSBundle.mainBundle().pathForResource(file as String, ofType: "sks")
         
         var sceneData: NSData! = NSData(contentsOfFile: path!, options: .DataReadingMappedIfSafe, error: nil)
         var archiver = NSKeyedUnarchiver(forReadingWithData: sceneData)
         
         archiver.setClass(self.classForKeyedUnarchiver(), forClassName: "SKScene")
-        let scene = archiver.decodeObjectForKey(NSKeyedArchiveRootObjectKey) as GameScene
+        let scene = archiver.decodeObjectForKey(NSKeyedArchiveRootObjectKey) as! GameScene
         archiver.finishDecoding()
         return scene
     }
 }
 
+@NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
     
     @IBOutlet var window: NSWindow!
     @IBOutlet var skView: SKView!
     
-    func applicationDidFinishLaunching(aNotification: NSNotification?) {
+    func applicationDidFinishLaunching(aNotification: NSNotification) {
         /* Pick a size for the scene */
             /* Set the scale mode to scale to fit the window */
         let scene = GameScene(levelToLoad: 1, numPlayers: 1)

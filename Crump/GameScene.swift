@@ -88,7 +88,7 @@ class GameScene: SKScene, DecisionPointKnowledgeWorker, SKPhysicsContactDelegate
         
         //preliminary code for future multiplayer support
         for i in 1 ... numPlayers {
-            var playerSprite: SKSpriteNode = tiledMap.childNodeWithName("Player\(i)") as SKSpriteNode
+            var playerSprite: SKSpriteNode = tiledMap.childNodeWithName("Player\(i)") as! SKSpriteNode
             var p = Player(sprite: playerSprite, knowledgeWorker: self, playerNumber: i)
             players.append(p)
         }
@@ -96,16 +96,16 @@ class GameScene: SKScene, DecisionPointKnowledgeWorker, SKPhysicsContactDelegate
         //Swift doesn't have good reflection/introspection yet, so we can't easily create a new class from a String name
         //Instead we resort to this ugly switch
         for dict in tiledMap.groupNamed("Enemies").objects {
-            switch(dict["type"]! as String) {
+            switch(dict["type"]! as! String) {
             case "EightBall":
-                let name: String = dict["name"]! as String
-                var enemySprite: SKSpriteNode = tiledMap.childNodeWithName(name) as SKSpriteNode
+                let name: String = dict["name"]! as! String
+                var enemySprite: SKSpriteNode = tiledMap.childNodeWithName(name) as! SKSpriteNode
                 var e = EightBall(sprite: enemySprite, knowledgeWorker: self)
                 enemies.append(e)
                 e.move()
             case "Sun":
-                let name: String = dict["name"]! as String
-                var enemySprite: SKSpriteNode = tiledMap.childNodeWithName(name) as SKSpriteNode
+                let name: String = dict["name"]! as! String
+                var enemySprite: SKSpriteNode = tiledMap.childNodeWithName(name) as! SKSpriteNode
                 var e = Sun(sprite: enemySprite, knowledgeWorker: self)
                 enemies.append(e)
                 e.move()

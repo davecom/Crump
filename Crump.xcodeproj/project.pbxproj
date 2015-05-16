@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		5506171A1960026200E1F0CC /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 550617191960026200E1F0CC /* main.swift */; };
 		5506171C1960026200E1F0CC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5506171B1960026200E1F0CC /* AppDelegate.swift */; };
 		5506171E1960026200E1F0CC /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5506171D1960026200E1F0CC /* GameScene.swift */; };
 		550617221960026200E1F0CC /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 550617211960026200E1F0CC /* Images.xcassets */; };
@@ -39,7 +38,6 @@
 /* Begin PBXFileReference section */
 		550617141960026200E1F0CC /* Crump.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Crump.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		550617181960026200E1F0CC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		550617191960026200E1F0CC /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		5506171B1960026200E1F0CC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		5506171D1960026200E1F0CC /* GameScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
 		550617211960026200E1F0CC /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
@@ -126,7 +124,6 @@
 			isa = PBXGroup;
 			children = (
 				550617181960026200E1F0CC /* Info.plist */,
-				550617191960026200E1F0CC /* main.swift */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -279,7 +276,6 @@
 				55C5A52E198786B100BC38FD /* Enemy.swift in Sources */,
 				551C593719876503000E067F /* GameCharacter.swift in Sources */,
 				55AB6D13197F8A55009FED3F /* LFCGzipUtility.m in Sources */,
-				5506171A1960026200E1F0CC /* main.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
