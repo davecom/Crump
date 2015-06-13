@@ -1,6 +1,8 @@
 Crump
 =====
 
+Note: Currently broken w/ the latest version of Swift/Xcode and also experiencing some issues with JSTileMap.  I will get back to this project when I have more time, but fixes are welcoem via pull request.
+
 OS X Arcade Game Written in Swift
 
 - Keyboard Controls
