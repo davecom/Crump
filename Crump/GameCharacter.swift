@@ -38,7 +38,7 @@ class GameCharacter {
     }
     
     private func calcDuration (to:CGPoint) -> NSTimeInterval {
-        return NSTimeInterval(distance(sprite.position, to) * speed)
+        return NSTimeInterval(distance(sprite.position, p2: to) * speed)
     }
     
     //hook for subclasses when dead end reached
@@ -48,7 +48,7 @@ class GameCharacter {
     
     func move() {
         //if off the board, put at the beginning of the other side of it
-        var tempDirection: Direction = wantToGo
+        let tempDirection: Direction = wantToGo
         if sprite.position.x < (-sprite.frame.size.width / 2 + 2) {
             sprite.position.x = dpkw.frame.width + sprite.frame.size.width / 2 - 3
             wantToGo = .Left

@@ -65,7 +65,7 @@ class GameScene: SKScene, DecisionPointKnowledgeWorker, SKPhysicsContactDelegate
 
     //location of all of the players
     var playersLocation: [CGPoint] {
-        return players.map{ (var p) -> CGPoint in
+        return players.map{ (p) -> CGPoint in
             return p.sprite.position
         }
     }
@@ -80,7 +80,7 @@ class GameScene: SKScene, DecisionPointKnowledgeWorker, SKPhysicsContactDelegate
         wallLayer = tiledMap.layerNamed("Walls")
         //let playerLocation = tiledMap.groupNamed("Stuff").objectNamed("Enemy1")
         //println(playerLocation["type"]!)
-        println("\(tiledMap.mapSize.width * tiledMap.tileSize.width) x \(tiledMap.mapSize.height * tiledMap.tileSize.height)")
+        print("\(tiledMap.mapSize.width * tiledMap.tileSize.width) x \(tiledMap.mapSize.height * tiledMap.tileSize.height)")
         super.init(size: CGSizeMake(tiledMap.mapSize.width * tiledMap.tileSize.width, tiledMap.mapSize.height * tiledMap.tileSize.height))
         
         self.physicsWorld.gravity = CGVectorMake(0, 0)
@@ -88,25 +88,25 @@ class GameScene: SKScene, DecisionPointKnowledgeWorker, SKPhysicsContactDelegate
         
         //preliminary code for future multiplayer support
         for i in 1 ... numPlayers {
-            var playerSprite: SKSpriteNode = tiledMap.childNodeWithName("Player\(i)") as! SKSpriteNode
-            var p = Player(sprite: playerSprite, knowledgeWorker: self, playerNumber: i)
+            let playerSprite: SKSpriteNode = tiledMap.childNodeWithName("Player\(i)") as! SKSpriteNode
+            let p = Player(sprite: playerSprite, knowledgeWorker: self, playerNumber: i)
             players.append(p)
         }
         
         //Swift doesn't have good reflection/introspection yet, so we can't easily create a new class from a String name
         //Instead we resort to this ugly switch
         for dict in tiledMap.groupNamed("Enemies").objects {
-            switch(dict["type"]! as! String) {
+            switch(dict.objectForKey("type") as! String) {
             case "EightBall":
-                let name: String = dict["name"]! as! String
-                var enemySprite: SKSpriteNode = tiledMap.childNodeWithName(name) as! SKSpriteNode
-                var e = EightBall(sprite: enemySprite, knowledgeWorker: self)
+                let name: String = dict.objectForKey("name") as! String
+                let enemySprite: SKSpriteNode = tiledMap.childNodeWithName(name) as! SKSpriteNode
+                let e = EightBall(sprite: enemySprite, knowledgeWorker: self)
                 enemies.append(e)
                 e.move()
             case "Sun":
-                let name: String = dict["name"]! as! String
-                var enemySprite: SKSpriteNode = tiledMap.childNodeWithName(name) as! SKSpriteNode
-                var e = Sun(sprite: enemySprite, knowledgeWorker: self)
+                let name: String = dict.objectForKey("name") as! String
+                let enemySprite: SKSpriteNode = tiledMap.childNodeWithName(name) as! SKSpriteNode
+                let e = Sun(sprite: enemySprite, knowledgeWorker: self)
                 enemies.append(e)
                 e.move()
             default:
@@ -244,7 +244,7 @@ class GameScene: SKScene, DecisionPointKnowledgeWorker, SKPhysicsContactDelegate
     
     override func keyDown(theEvent: NSEvent) {
         let temp: String = theEvent.characters!
-        for letter in temp {
+        for letter in temp.characters {
             switch (letter) {
             case "p":
                 pause()
@@ -273,7 +273,7 @@ class GameScene: SKScene, DecisionPointKnowledgeWorker, SKPhysicsContactDelegate
     //var times: Int = 1
     func didBeginContact(contact: SKPhysicsContact) {
         let a: SKPhysicsBody = contact.bodyA
-        let b: SKPhysicsBody = contact.bodyB
+        //let b: SKPhysicsBody = contact.bodyB
         if (a.categoryBitMask == PhysicsCategory.Player) {
             //println("Player hit something \(times)")
             //times++

@@ -26,7 +26,7 @@ class Sun: Enemy {
         //find closest player to gravitate towards
         var closestP:CGPoint = dpkw.playersLocation[0]
         for var i:Int = 1; i < dpkw.playersLocation.count; i++ {
-            if distance(sprite.position, dpkw.playersLocation[i]) < distance(sprite.position, closestP) {
+            if distance(sprite.position, p2: dpkw.playersLocation[i]) < distance(sprite.position, p2: closestP) {
                 closestP = dpkw.playersLocation[i]
             }
         }
@@ -51,9 +51,9 @@ class Sun: Enemy {
             case 2: wantToGo = .Left
             default: wantToGo = .Right
             }
-        } else if let tempD = dpkw.findDecisionPoint(sprite.position, inDirection: wantToGoHorizontal) {
+        } else if let _ = dpkw.findDecisionPoint(sprite.position, inDirection: wantToGoHorizontal) {
             wantToGo = wantToGoHorizontal
-        } else if let tempD = dpkw.findDecisionPoint(sprite.position, inDirection: wantToGoVertical) {
+        } else if let _ = dpkw.findDecisionPoint(sprite.position, inDirection: wantToGoVertical) {
             wantToGo = wantToGoVertical
         } else { //just go random direction of the remaining
             switch(arc4random_uniform(2)) {
