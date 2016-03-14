@@ -25,7 +25,7 @@ class Sun: Enemy {
     override func move() {
         //find closest player to gravitate towards
         var closestP:CGPoint = dpkw.playersLocation[0]
-        for var i:Int = 1; i < dpkw.playersLocation.count; i++ {
+        for i:Int in 1 ..< dpkw.playersLocation.count {
             if distance(sprite.position, p2: dpkw.playersLocation[i]) < distance(sprite.position, p2: closestP) {
                 closestP = dpkw.playersLocation[i]
             }
