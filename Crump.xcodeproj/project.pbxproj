@@ -11,7 +11,6 @@
 		5506171E1960026200E1F0CC /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5506171D1960026200E1F0CC /* GameScene.swift */; };
 		550617221960026200E1F0CC /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 550617211960026200E1F0CC /* Images.xcassets */; };
 		550617251960026200E1F0CC /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 550617231960026200E1F0CC /* MainMenu.xib */; };
-		550617311960026200E1F0CC /* CrumpTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 550617301960026200E1F0CC /* CrumpTests.swift */; };
 		551C593719876503000E067F /* GameCharacter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 551C593619876503000E067F /* GameCharacter.swift */; };
 		551C593919877902000E067F /* EightBall.swift in Sources */ = {isa = PBXBuildFile; fileRef = 551C593819877902000E067F /* EightBall.swift */; };
 		553DB09119613B9C0053637D /* level1.tmx in Resources */ = {isa = PBXBuildFile; fileRef = 553DB08F19613B9C0053637D /* level1.tmx */; };
@@ -25,16 +24,6 @@
 		55C73D4B197E08B0002C1535 /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55C73D4A197E08B0002C1535 /* Player.swift */; };
 /* End PBXBuildFile section */
 
-/* Begin PBXContainerItemProxy section */
-		5506172B1960026200E1F0CC /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 5506170C1960026200E1F0CC /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 550617131960026200E1F0CC;
-			remoteInfo = Chomp;
-		};
-/* End PBXContainerItemProxy section */
-
 /* Begin PBXFileReference section */
 		550617141960026200E1F0CC /* Crump.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Crump.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		550617181960026200E1F0CC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -42,9 +31,6 @@
 		5506171D1960026200E1F0CC /* GameScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
 		550617211960026200E1F0CC /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		550617241960026200E1F0CC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
-		5506172A1960026200E1F0CC /* CrumpTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CrumpTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		5506172F1960026200E1F0CC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		550617301960026200E1F0CC /* CrumpTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CrumpTests.swift; sourceTree = "<group>"; };
 		551C593619876503000E067F /* GameCharacter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameCharacter.swift; sourceTree = "<group>"; };
 		551C593819877902000E067F /* EightBall.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EightBall.swift; sourceTree = "<group>"; };
 		553DB08F19613B9C0053637D /* level1.tmx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = level1.tmx; sourceTree = "<group>"; };
@@ -70,13 +56,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		550617271960026200E1F0CC /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -85,7 +64,6 @@
 			children = (
 				55C6AFCB196038C0006CDF0C /* libz.dylib */,
 				550617161960026200E1F0CC /* Crump */,
-				5506172D1960026200E1F0CC /* CrumpTests */,
 				550617151960026200E1F0CC /* Products */,
 			);
 			sourceTree = "<group>";
@@ -94,7 +72,6 @@
 			isa = PBXGroup;
 			children = (
 				550617141960026200E1F0CC /* Crump.app */,
-				5506172A1960026200E1F0CC /* CrumpTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -124,23 +101,6 @@
 			isa = PBXGroup;
 			children = (
 				550617181960026200E1F0CC /* Info.plist */,
-			);
-			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
-		5506172D1960026200E1F0CC /* CrumpTests */ = {
-			isa = PBXGroup;
-			children = (
-				550617301960026200E1F0CC /* CrumpTests.swift */,
-				5506172E1960026200E1F0CC /* Supporting Files */,
-			);
-			path = CrumpTests;
-			sourceTree = "<group>";
-		};
-		5506172E1960026200E1F0CC /* Supporting Files */ = {
-			isa = PBXGroup;
-			children = (
-				5506172F1960026200E1F0CC /* Info.plist */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -185,24 +145,6 @@
 			productReference = 550617141960026200E1F0CC /* Crump.app */;
 			productType = "com.apple.product-type.application";
 		};
-		550617291960026200E1F0CC /* CrumpTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 550617371960026200E1F0CC /* Build configuration list for PBXNativeTarget "CrumpTests" */;
-			buildPhases = (
-				550617261960026200E1F0CC /* Sources */,
-				550617271960026200E1F0CC /* Frameworks */,
-				550617281960026200E1F0CC /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				5506172C1960026200E1F0CC /* PBXTargetDependency */,
-			);
-			name = CrumpTests;
-			productName = ChompTests;
-			productReference = 5506172A1960026200E1F0CC /* CrumpTests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
-		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -211,15 +153,12 @@
 			attributes = {
 				LastSwiftMigration = 0720;
 				LastSwiftUpdateCheck = 0720;
-				LastUpgradeCheck = 0720;
+				LastUpgradeCheck = 0800;
 				ORGANIZATIONNAME = "Oak Snow Consulting";
 				TargetAttributes = {
 					550617131960026200E1F0CC = {
 						CreatedOnToolsVersion = 6.0;
-					};
-					550617291960026200E1F0CC = {
-						CreatedOnToolsVersion = 6.0;
-						TestTargetID = 550617131960026200E1F0CC;
+						LastSwiftMigration = 0800;
 					};
 				};
 			};
@@ -237,7 +176,6 @@
 			projectRoot = "";
 			targets = (
 				550617131960026200E1F0CC /* Crump */,
-				550617291960026200E1F0CC /* CrumpTests */,
 			);
 		};
 /* End PBXProject section */
@@ -251,13 +189,6 @@
 				550617221960026200E1F0CC /* Images.xcassets in Resources */,
 				550617251960026200E1F0CC /* MainMenu.xib in Resources */,
 				553DB09119613B9C0053637D /* level1.tmx in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		550617281960026200E1F0CC /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -281,23 +212,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		550617261960026200E1F0CC /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				550617311960026200E1F0CC /* CrumpTests.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		5506172C1960026200E1F0CC /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 550617131960026200E1F0CC /* Crump */;
-			targetProxy = 5506172B1960026200E1F0CC /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		550617231960026200E1F0CC /* MainMenu.xib */ = {
@@ -324,8 +239,10 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "-";
@@ -334,6 +251,7 @@
 				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
@@ -367,8 +285,10 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "-";
@@ -377,6 +297,7 @@
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
@@ -386,6 +307,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				METAL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = macosx;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 			};
 			name = Release;
 		};
@@ -402,6 +324,7 @@
 				PRODUCT_NAME = Crump;
 				SWIFT_OBJC_BRIDGING_HEADER = "Crump/Crump-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
 		};
@@ -417,44 +340,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.oaksnow.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = Crump;
 				SWIFT_OBJC_BRIDGING_HEADER = "Crump/Crump-Bridging-Header.h";
-			};
-			name = Release;
-		};
-		550617381960026200E1F0CC /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Chomp.app/Contents/MacOS/Chomp";
-				COMBINE_HIDPI_IMAGES = YES;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(DEVELOPER_FRAMEWORKS_DIR)",
-					"$(inherited)",
-				);
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"$(inherited)",
-				);
-				INFOPLIST_FILE = ChompTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
-				METAL_ENABLE_DEBUG_INFO = YES;
-				PRODUCT_NAME = CrumpTests;
-				TEST_HOST = "$(BUNDLE_LOADER)";
-			};
-			name = Debug;
-		};
-		550617391960026200E1F0CC /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Chomp.app/Contents/MacOS/Chomp";
-				COMBINE_HIDPI_IMAGES = YES;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(DEVELOPER_FRAMEWORKS_DIR)",
-					"$(inherited)",
-				);
-				INFOPLIST_FILE = ChompTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
-				METAL_ENABLE_DEBUG_INFO = NO;
-				PRODUCT_NAME = CrumpTests;
-				TEST_HOST = "$(BUNDLE_LOADER)";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
 		};
@@ -475,15 +361,6 @@
 			buildConfigurations = (
 				550617351960026200E1F0CC /* Debug */,
 				550617361960026200E1F0CC /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		550617371960026200E1F0CC /* Build configuration list for PBXNativeTarget "CrumpTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				550617381960026200E1F0CC /* Debug */,
-				550617391960026200E1F0CC /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

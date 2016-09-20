@@ -23,7 +23,7 @@ import SpriteKit
 protocol DecisionPointKnowledgeWorker {
     var frame: CGRect { get }
     var playersLocation: [CGPoint] { get }  //location of player(s) on screen
-    func findDecisionPoint(fromLocation: CGPoint, inDirection: Direction) -> CGPoint?
+    func findDecisionPoint(_ fromLocation: CGPoint, inDirection: Direction) -> CGPoint?
 }
 
 enum Direction : String {
@@ -81,14 +81,14 @@ class GameScene: SKScene, DecisionPointKnowledgeWorker, SKPhysicsContactDelegate
         //let playerLocation = tiledMap.groupNamed("Stuff").objectNamed("Enemy1")
         //println(playerLocation["type"]!)
         print("\(tiledMap.mapSize.width * tiledMap.tileSize.width) x \(tiledMap.mapSize.height * tiledMap.tileSize.height)")
-        super.init(size: CGSizeMake(tiledMap.mapSize.width * tiledMap.tileSize.width, tiledMap.mapSize.height * tiledMap.tileSize.height))
+        super.init(size: CGSize(width: tiledMap.mapSize.width * tiledMap.tileSize.width, height: tiledMap.mapSize.height * tiledMap.tileSize.height))
         
-        self.physicsWorld.gravity = CGVectorMake(0, 0)
+        self.physicsWorld.gravity = CGVector(dx: 0, dy: 0)
         self.physicsWorld.contactDelegate = self
         
         //preliminary code for future multiplayer support
         for i in 1 ... numPlayers {
-            let playerSprite: SKSpriteNode = tiledMap.childNodeWithName("Player\(i)") as! SKSpriteNode
+            let playerSprite: SKSpriteNode = tiledMap.childNode(withName: "Player\(i)") as! SKSpriteNode
             let p = Player(sprite: playerSprite, knowledgeWorker: self, playerNumber: i)
             players.append(p)
         }
@@ -96,16 +96,16 @@ class GameScene: SKScene, DecisionPointKnowledgeWorker, SKPhysicsContactDelegate
         //Swift doesn't have good reflection/introspection yet, so we can't easily create a new class from a String name
         //Instead we resort to this ugly switch
         for dict in tiledMap.groupNamed("Enemies").objects {
-            switch(dict.objectForKey("type") as! String) {
+            switch((dict as AnyObject).object(forKey: "type") as! String) {
             case "EightBall":
-                let name: String = dict.objectForKey("name") as! String
-                let enemySprite: SKSpriteNode = tiledMap.childNodeWithName(name) as! SKSpriteNode
+                let name: String = (dict as AnyObject).object(forKey: "name") as! String
+                let enemySprite: SKSpriteNode = tiledMap.childNode(withName: name) as! SKSpriteNode
                 let e = EightBall(sprite: enemySprite, knowledgeWorker: self)
                 enemies.append(e)
                 e.move()
             case "Sun":
-                let name: String = dict.objectForKey("name") as! String
-                let enemySprite: SKSpriteNode = tiledMap.childNodeWithName(name) as! SKSpriteNode
+                let name: String = (dict as AnyObject).object(forKey: "name") as! String
+                let enemySprite: SKSpriteNode = tiledMap.childNode(withName: name) as! SKSpriteNode
                 let e = Sun(sprite: enemySprite, knowledgeWorker: self)
                 enemies.append(e)
                 e.move()
@@ -114,15 +114,15 @@ class GameScene: SKScene, DecisionPointKnowledgeWorker, SKPhysicsContactDelegate
             }
         }
         
-        anchorPoint = CGPointMake(0.5, 0.5)
+        anchorPoint = CGPoint(x: 0.5, y: 0.5)
         let mapBounds = tiledMap.calculateAccumulatedFrame()
-        tiledMap.position = CGPointMake(-mapBounds.size.width/2.0, -mapBounds.size.height/2.0);
+        tiledMap.position = CGPoint(x: -mapBounds.size.width/2.0, y: -mapBounds.size.height/2.0);
         //println(tiledMap.)
         addChild(tiledMap)
     }
     
     
-    override func didMoveToView(view: SKView) {
+    override func didMove(to view: SKView) {
         /* Setup your scene here */
         /*let myLabel = SKLabelNode(fontNamed:"Chalkduster")
         myLabel.text = "Hello, World!";
@@ -133,22 +133,22 @@ class GameScene: SKScene, DecisionPointKnowledgeWorker, SKPhysicsContactDelegate
     }
     
     func pause() {
-        if (!paused) {
+        if (!isPaused) {
             let myLabel = SKLabelNode(fontNamed:"Chalkduster")
             myLabel.text = "Paused"
             myLabel.name = "Paused"
             myLabel.fontSize = 65
-            myLabel.position = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMidY(self.frame))
+            myLabel.position = CGPoint(x:self.frame.midX, y:self.frame.midY)
             addChild(myLabel)
         } else {
-            let myLabel = childNodeWithName("Paused")
+            let myLabel = childNode(withName: "Paused")
             myLabel!.removeFromParent()
         }
-        paused = !paused
+        isPaused = !isPaused
     }
     
     //find the next place where moving in the current direction
-    func findDecisionPoint(fromLocation: CGPoint, inDirection: Direction) -> CGPoint? {
+    func findDecisionPoint(_ fromLocation: CGPoint, inDirection: Direction) -> CGPoint? {
         
         switch (inDirection) {
         case .Right:
@@ -156,33 +156,33 @@ class GameScene: SKScene, DecisionPointKnowledgeWorker, SKPhysicsContactDelegate
             if (fromLocation.x < 0) {  //deal with negative values
                 tempX = tiledMap.tileSize.width / 2
             } else {
-                tempX = round(fromLocation.x) + (tiledMap.tileSize.width - (round(fromLocation.x) % tiledMap.tileSize.width)) + (tiledMap.tileSize.width / 2)
+                tempX = round(fromLocation.x) + (tiledMap.tileSize.width - (round(fromLocation.x).truncatingRemainder(dividingBy: tiledMap.tileSize.width))) + (tiledMap.tileSize.width / 2)
             }
-            if (wallLayer.tileAt(CGPoint(x: tempX, y: fromLocation.y)) != nil) {
+            if (wallLayer.tile(at: CGPoint(x: tempX, y: fromLocation.y)) != nil) {
                 //println("something here at \(tempX), \(fromLocation.y)!")
                 return nil
             } else if (tempX > tiledMap.mapSize.width - tiledMap.tileSize.width) {  //deal with edge of board
                 return CGPoint(x: tempX, y: fromLocation.y)
             }
             for _ in 0...Int(tiledMap.mapSize.width) { //var i:CGFloat = 0; i <= tiledMap.mapSize.width; i++ {
-                if (wallLayer.tileAt(CGPoint(x: tempX, y: fromLocation.y - tiledMap.tileSize.height)) == nil) || (wallLayer.tileAt(CGPoint(x: tempX, y: fromLocation.y + tiledMap.tileSize.height)) == nil) || (wallLayer.tileAt(CGPoint(x: tempX + tiledMap.tileSize.width, y: fromLocation.y)) != nil) {
+                if (wallLayer.tile(at: CGPoint(x: tempX, y: fromLocation.y - tiledMap.tileSize.height)) == nil) || (wallLayer.tile(at: CGPoint(x: tempX, y: fromLocation.y + tiledMap.tileSize.height)) == nil) || (wallLayer.tile(at: CGPoint(x: tempX + tiledMap.tileSize.width, y: fromLocation.y)) != nil) {
                     return CGPoint(x: tempX, y: fromLocation.y)
                 }
                 tempX += tiledMap.tileSize.width
             }
             return nil
         case .Left:
-            var tempX = round(fromLocation.x) - (round(fromLocation.x) % tiledMap.tileSize.width) - (tiledMap.tileSize.width / 2)
+            var tempX = round(fromLocation.x) - (round(fromLocation.x).truncatingRemainder(dividingBy: tiledMap.tileSize.width)) - (tiledMap.tileSize.width / 2)
             if (tempX == fromLocation.x) {
                 tempX -= tiledMap.tileSize.width
             }
-            if (wallLayer.tileAt(CGPoint(x: tempX, y: fromLocation.y)) != nil) {
+            if (wallLayer.tile(at: CGPoint(x: tempX, y: fromLocation.y)) != nil) {
                 return nil
             } else if (tempX < tiledMap.tileSize.width) {  //deal with edge of board
                 return CGPoint(x: tempX, y: fromLocation.y)
             }
             for _ in 0...Int(tiledMap.mapSize.width) {
-                if (wallLayer.tileAt(CGPoint(x: tempX, y: fromLocation.y - tiledMap.tileSize.height)) == nil) || (wallLayer.tileAt(CGPoint(x: tempX, y: fromLocation.y + tiledMap.tileSize.height)) == nil) || (wallLayer.tileAt(CGPoint(x: tempX - tiledMap.tileSize.width, y: fromLocation.y)) != nil) {
+                if (wallLayer.tile(at: CGPoint(x: tempX, y: fromLocation.y - tiledMap.tileSize.height)) == nil) || (wallLayer.tile(at: CGPoint(x: tempX, y: fromLocation.y + tiledMap.tileSize.height)) == nil) || (wallLayer.tile(at: CGPoint(x: tempX - tiledMap.tileSize.width, y: fromLocation.y)) != nil) {
                     return CGPoint(x: tempX, y: fromLocation.y)
                 }
                 tempX -= tiledMap.tileSize.width
@@ -193,30 +193,30 @@ class GameScene: SKScene, DecisionPointKnowledgeWorker, SKPhysicsContactDelegate
             if (fromLocation.y < 0) {  //deal with negative values
                 tempY = tiledMap.tileSize.height / 2
             } else {
-                tempY = round(fromLocation.y) + (tiledMap.tileSize.height - (round(fromLocation.y) % tiledMap.tileSize.height)) + (tiledMap.tileSize.height / 2)
+                tempY = round(fromLocation.y) + (tiledMap.tileSize.height - (round(fromLocation.y).truncatingRemainder(dividingBy: tiledMap.tileSize.height))) + (tiledMap.tileSize.height / 2)
             }
-            if (wallLayer.tileAt(CGPoint(x: fromLocation.x, y: tempY)) != nil) {
+            if (wallLayer.tile(at: CGPoint(x: fromLocation.x, y: tempY)) != nil) {
                 return nil
             } else if (tempY > tiledMap.mapSize.height - tiledMap.tileSize.height) {  //deal with edge of board
                 return CGPoint(x: fromLocation.x, y: tempY)
             }
             for _ in 0...Int(tiledMap.mapSize.height) {
-                if (wallLayer.tileAt(CGPoint(x: fromLocation.x - tiledMap.tileSize.width, y: tempY)) == nil) ||
-                    (wallLayer.tileAt(CGPoint(x: fromLocation.x + tiledMap.tileSize.width, y: tempY )) == nil) ||
-                    (wallLayer.tileAt(CGPoint(x: fromLocation.x, y: tempY + tiledMap.tileSize.height)) != nil) {
+                if (wallLayer.tile(at: CGPoint(x: fromLocation.x - tiledMap.tileSize.width, y: tempY)) == nil) ||
+                    (wallLayer.tile(at: CGPoint(x: fromLocation.x + tiledMap.tileSize.width, y: tempY )) == nil) ||
+                    (wallLayer.tile(at: CGPoint(x: fromLocation.x, y: tempY + tiledMap.tileSize.height)) != nil) {
                     return CGPoint(x: fromLocation.x, y: tempY)
                 }
                 tempY += tiledMap.tileSize.height
             }
             return nil
         case .Down:
-            var tempY = round(fromLocation.y) - (round(fromLocation.y) % tiledMap.tileSize.height) - (tiledMap.tileSize.height / 2)
+            var tempY = round(fromLocation.y) - (round(fromLocation.y).truncatingRemainder(dividingBy: tiledMap.tileSize.height)) - (tiledMap.tileSize.height / 2)
             if (tempY == fromLocation.y) {
                 
                 tempY -= tiledMap.tileSize.height
             }
             //println("Testing wallLayer at \(tempY)");
-            if (wallLayer.tileAt(CGPoint(x: fromLocation.x, y: tempY)) != nil) {
+            if (wallLayer.tile(at: CGPoint(x: fromLocation.x, y: tempY)) != nil) {
                 //println("something here at \(fromLocation.x), \(tempY))!")
                 return nil
             } else if (tempY < tiledMap.tileSize.height) {  //deal with edge of board
@@ -224,9 +224,9 @@ class GameScene: SKScene, DecisionPointKnowledgeWorker, SKPhysicsContactDelegate
             }
             for _ in 0...Int(tiledMap.mapSize.height) {
                 //println("Testing \(tempY)");
-                if (wallLayer.tileAt(CGPoint(x: fromLocation.x - tiledMap.tileSize.width, y: tempY)) == nil) ||
-                    (wallLayer.tileAt(CGPoint(x: fromLocation.x + tiledMap.tileSize.width, y: tempY )) == nil) ||
-                    (wallLayer.tileAt(CGPoint(x: fromLocation.x, y: tempY - tiledMap.tileSize.height)) != nil) {
+                if (wallLayer.tile(at: CGPoint(x: fromLocation.x - tiledMap.tileSize.width, y: tempY)) == nil) ||
+                    (wallLayer.tile(at: CGPoint(x: fromLocation.x + tiledMap.tileSize.width, y: tempY )) == nil) ||
+                    (wallLayer.tile(at: CGPoint(x: fromLocation.x, y: tempY - tiledMap.tileSize.height)) != nil) {
                     return CGPoint(x: fromLocation.x, y: tempY)
                 }
                 tempY -= tiledMap.tileSize.height
@@ -237,12 +237,12 @@ class GameScene: SKScene, DecisionPointKnowledgeWorker, SKPhysicsContactDelegate
         }
     }
     
-    override func mouseDown(theEvent: NSEvent) {
+    override func mouseDown(with theEvent: NSEvent) {
         /* Called when a mouse click occurs */
         pause()
     }
     
-    override func keyDown(theEvent: NSEvent) {
+    override func keyDown(with theEvent: NSEvent) {
         let temp: String = theEvent.characters!
         for letter in temp.characters {
             switch (letter) {
@@ -265,13 +265,13 @@ class GameScene: SKScene, DecisionPointKnowledgeWorker, SKPhysicsContactDelegate
         //check if trying to go opposite direction, then do so immediately
     }
     
-    override func update(currentTime: CFTimeInterval) {
+    override func update(_ currentTime: TimeInterval) {
         /* Called before each frame is rendered */
     }
     
     //MARK: SKPhysics Delegate
     //var times: Int = 1
-    func didBeginContact(contact: SKPhysicsContact) {
+    func didBegin(_ contact: SKPhysicsContact) {
         let a: SKPhysicsBody = contact.bodyA
         //let b: SKPhysicsBody = contact.bodyB
         if (a.categoryBitMask == PhysicsCategory.Player) {

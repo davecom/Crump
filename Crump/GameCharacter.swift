@@ -30,15 +30,15 @@ class GameCharacter {
     init(sprite: SKSpriteNode, knowledgeWorker: DecisionPointKnowledgeWorker, categoryBitMask: UInt32, contactTestBitMask: UInt32) {
         self.sprite = sprite
         self.dpkw = knowledgeWorker
-        self.sprite.physicsBody = SKPhysicsBody(rectangleOfSize: self.sprite.size)
-        self.sprite.physicsBody?.dynamic = true
+        self.sprite.physicsBody = SKPhysicsBody(rectangleOf: self.sprite.size)
+        self.sprite.physicsBody?.isDynamic = true
         self.sprite.physicsBody?.categoryBitMask = categoryBitMask
         self.sprite.physicsBody?.contactTestBitMask = contactTestBitMask
         self.sprite.physicsBody?.collisionBitMask = 0
     }
     
-    private func calcDuration (to:CGPoint) -> NSTimeInterval {
-        return NSTimeInterval(distance(sprite.position, p2: to) * speed)
+    fileprivate func calcDuration (_ to:CGPoint) -> TimeInterval {
+        return TimeInterval(distance(sprite.position, p2: to) * speed)
     }
     
     //hook for subclasses when dead end reached
@@ -70,16 +70,16 @@ class GameCharacter {
             sprite.removeAllActions()
             direction = wantToGo;
             //rotate to be the right direction
-            sprite.runAction(SKAction.rotateToAngle(direction.radians, duration: 0.1, shortestUnitArc: true))
-            sprite.runAction(SKAction.sequence([SKAction.moveTo(canI, duration: calcDuration(canI)), SKAction.runBlock({
+            sprite.run(SKAction.rotate(toAngle: direction.radians, duration: 0.1, shortestUnitArc: true))
+            sprite.run(SKAction.sequence([SKAction.move(to: canI, duration: calcDuration(canI)), SKAction.run({
                 self.move()
                 })]))
         } else if let canI = dpkw.findDecisionPoint(sprite.position, inDirection: direction) {
             //println("Found decision point: \(canI)")
             sprite.removeAllActions()
             //rotate to be the right direction
-            sprite.runAction(SKAction.rotateToAngle(direction.radians, duration: 0.1, shortestUnitArc: true))
-            sprite.runAction(SKAction.sequence([SKAction.moveTo(canI, duration: calcDuration(canI)), SKAction.runBlock({
+            sprite.run(SKAction.rotate(toAngle: direction.radians, duration: 0.1, shortestUnitArc: true))
+            sprite.run(SKAction.sequence([SKAction.move(to: canI, duration: calcDuration(canI)), SKAction.run({
                 self.move()
                 })]))
         } else {

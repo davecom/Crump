@@ -28,7 +28,7 @@ class Player: GameCharacter {
     
     init(sprite: SKSpriteNode, knowledgeWorker: DecisionPointKnowledgeWorker, playerNumber: Int) {
         //self.playerNumber = playerNumber
-        if let tempKeyBindings = NSUserDefaults.standardUserDefaults().dictionaryForKey("player\(playerNumber)KeyBindings"){
+        if let tempKeyBindings = UserDefaults.standard.dictionary(forKey: "player\(playerNumber)KeyBindings"){
             for (key, value) in tempKeyBindings {
                 keyBindings[(key )] = Direction(rawValue: value as! String)
             }

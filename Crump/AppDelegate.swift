@@ -22,15 +22,15 @@ import Cocoa
 import SpriteKit
 
 extension SKNode {
-    class func unarchiveFromFile(file : NSString) -> SKNode? {
+    class func unarchiveFromFile(_ file : NSString) -> SKNode? {
         
-        let path = NSBundle.mainBundle().pathForResource(file as String, ofType: "sks")
+        let path = Bundle.main.path(forResource: file as String, ofType: "sks")
         
-        let sceneData: NSData! = try? NSData(contentsOfFile: path!, options: .DataReadingMappedIfSafe)
-        let archiver = NSKeyedUnarchiver(forReadingWithData: sceneData)
+        let sceneData: Data! = try? Data(contentsOf: URL(fileURLWithPath: path!), options: .mappedIfSafe)
+        let archiver = NSKeyedUnarchiver(forReadingWith: sceneData)
         
         archiver.setClass(self.classForKeyedUnarchiver(), forClassName: "SKScene")
-        let scene = archiver.decodeObjectForKey(NSKeyedArchiveRootObjectKey) as! GameScene
+        let scene = archiver.decodeObject(forKey: NSKeyedArchiveRootObjectKey) as! GameScene
         archiver.finishDecoding()
         return scene
     }
@@ -42,11 +42,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     @IBOutlet var window: NSWindow!
     @IBOutlet var skView: SKView!
     
-    func applicationDidFinishLaunching(aNotification: NSNotification) {
+    func applicationDidFinishLaunching(_ aNotification: Notification) {
         /* Pick a size for the scene */
             /* Set the scale mode to scale to fit the window */
         let scene = GameScene(levelToLoad: 1, numPlayers: 1)
-        scene.scaleMode = .Fill
+        scene.scaleMode = .fill
             
         self.skView!.presentScene(scene)
             
@@ -57,7 +57,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         self.skView!.showsNodeCount = true
     }
     
-    func applicationShouldTerminateAfterLastWindowClosed(sender: NSApplication) -> Bool {
+    func applicationShouldTerminateAfterLastWindowClosed(_ sender: NSApplication) -> Bool {
         return true;
     }
 }
