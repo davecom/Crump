@@ -21,20 +21,6 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 import Cocoa
 import SpriteKit
 
-extension SKNode {
-    class func unarchiveFromFile(_ file : NSString) -> SKNode? {
-        
-        let path = Bundle.main.path(forResource: file as String, ofType: "sks")
-        
-        let sceneData: Data! = try? Data(contentsOf: URL(fileURLWithPath: path!), options: .mappedIfSafe)
-        let archiver = NSKeyedUnarchiver(forReadingWith: sceneData)
-        
-        archiver.setClass(self.classForKeyedUnarchiver(), forClassName: "SKScene")
-        let scene = archiver.decodeObject(forKey: NSKeyedArchiveRootObjectKey) as! GameScene
-        archiver.finishDecoding()
-        return scene
-    }
-}
 
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
@@ -45,7 +31,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         /* Pick a size for the scene */
             /* Set the scale mode to scale to fit the window */
-        let scene = GameScene(levelToLoad: 1, numPlayers: 1)
+        let scene = GameScene(level: 1, numPlayers: 1)
         scene.scaleMode = .fill
             
         self.skView!.presentScene(scene)

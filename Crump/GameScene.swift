@@ -21,7 +21,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 import SpriteKit
 
 protocol DecisionPointKnowledgeWorker {
-    var frame: CGRect { get }
+    var tileSetFrame: CGRect { get }
     var playersLocation: [CGPoint] { get }  //location of player(s) on screen
     func findDecisionPoint(_ fromLocation: CGPoint, inDirection: Direction) -> CGPoint?
 }
@@ -39,10 +39,10 @@ enum Direction : String {
     }
     var radians: CGFloat {
         switch(self) {
-        case (.Left): return CGFloat(M_PI / 2)
-        case (.Right): return CGFloat(M_PI * (3 / 2))
+        case (.Left): return CGFloat.pi / 2
+        case (.Right): return CGFloat.pi * (3 / 2)
         case (.Up): return 0
-        case (.Down): return CGFloat(M_PI)
+        case (.Down): return CGFloat.pi
         default: return 0
             }
     }
@@ -57,11 +57,14 @@ struct PhysicsCategory {
 }
 
 class GameScene: SKScene, DecisionPointKnowledgeWorker, SKPhysicsContactDelegate {
-    var tiledMap: JSTileMap
-    var level: Int
+    var tiledMap: SKTileMapNode = SKTileMapNode()
+    var level: Int = 1
     var players: [Player] = []
     var enemies: [Enemy] = []
-    let wallLayer: TMXLayer
+    
+    var tileSetFrame: CGRect {
+        return tiledMap.frame
+    }
 
     //location of all of the players
     var playersLocation: [CGPoint] {
@@ -70,55 +73,67 @@ class GameScene: SKScene, DecisionPointKnowledgeWorker, SKPhysicsContactDelegate
         }
     }
     
-    required init(coder: NSCoder) {
-        fatalError("NSCoding not supported")
+    // must override all designated initializers to use convenience initializer in super class (fileNamed: )
+    override init(size: CGSize) {
+        super.init(size: size)
     }
     
-    init(levelToLoad: Int, numPlayers: Int) {
-        level = levelToLoad
-        tiledMap = JSTileMap(named: "level\(level).tmx")
-        wallLayer = tiledMap.layerNamed("Walls")
-        //let playerLocation = tiledMap.groupNamed("Stuff").objectNamed("Enemy1")
-        //println(playerLocation["type"]!)
-        print("\(tiledMap.mapSize.width * tiledMap.tileSize.width) x \(tiledMap.mapSize.height * tiledMap.tileSize.height)")
-        super.init(size: CGSize(width: tiledMap.mapSize.width * tiledMap.tileSize.width, height: tiledMap.mapSize.height * tiledMap.tileSize.height))
+    override init() {
+        super.init()
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+    }
+    
+    convenience init(level: Int, numPlayers: Int) {
+        self.init(fileNamed: "Level\(level)")!
+
+        self.level = level
+        self.tiledMap = self.childNode(withName: "Tile Map Node") as! SKTileMapNode
+        physicsWorld.gravity = CGVector(dx: 0, dy: 0)
+        physicsWorld.contactDelegate = self
         
-        self.physicsWorld.gravity = CGVector(dx: 0, dy: 0)
-        self.physicsWorld.contactDelegate = self
+        print("frame: \(self.frame)")
+        print("tilemapframe: \(tiledMap.frame)")
         
         //preliminary code for future multiplayer support
         for i in 1 ... numPlayers {
-            let playerSprite: SKSpriteNode = tiledMap.childNode(withName: "Player\(i)") as! SKSpriteNode
+            let playerSprite: SKSpriteNode = self.childNode(withName: "Player\(i)") as! SKSpriteNode
             let p = Player(sprite: playerSprite, knowledgeWorker: self, playerNumber: i)
             players.append(p)
         }
         
-        //Swift doesn't have good reflection/introspection yet, so we can't easily create a new class from a String name
-        //Instead we resort to this ugly switch
-        for dict in tiledMap.groupNamed("Enemies").objects {
-            switch((dict as AnyObject).object(forKey: "type") as! String) {
-            case "EightBall":
-                let name: String = (dict as AnyObject).object(forKey: "name") as! String
-                let enemySprite: SKSpriteNode = tiledMap.childNode(withName: name) as! SKSpriteNode
-                let e = EightBall(sprite: enemySprite, knowledgeWorker: self)
-                enemies.append(e)
-                e.move()
-            case "Sun":
-                let name: String = (dict as AnyObject).object(forKey: "name") as! String
-                let enemySprite: SKSpriteNode = tiledMap.childNode(withName: name) as! SKSpriteNode
-                let e = Sun(sprite: enemySprite, knowledgeWorker: self)
-                enemies.append(e)
-                e.move()
-            default:
-                break
+        for i in 0..<self.tiledMap.numberOfColumns {
+            for j in 0..<self.tiledMap.numberOfRows {
+                let sl: SKLabelNode = SKLabelNode(text: "\(i),\(j)")
+                let pos = tiledMap.centerOfTile(atColumn: i, row: j)
+                self.addChild(sl)
+                sl.fontSize = 10.0
+                sl.position = pos
             }
         }
         
-        anchorPoint = CGPoint(x: 0.5, y: 0.5)
-        let mapBounds = tiledMap.calculateAccumulatedFrame()
-        tiledMap.position = CGPoint(x: -mapBounds.size.width/2.0, y: -mapBounds.size.height/2.0);
-        //println(tiledMap.)
-        addChild(tiledMap)
+        //Swift doesn't have good reflection/introspection yet, so we can't easily create a new class from a String name
+        //Instead we resort to this ugly switch
+        for child in self.children {
+            if let name = child.name {
+                switch (name) {
+                case "EightBall":
+                    let enemySprite: SKSpriteNode = tiledMap.childNode(withName: name) as! SKSpriteNode
+                    let e = EightBall(sprite: enemySprite, knowledgeWorker: self)
+                    enemies.append(e)
+                    e.move()
+                case "Sun":
+                    let enemySprite: SKSpriteNode = tiledMap.childNode(withName: name) as! SKSpriteNode
+                    let e = Sun(sprite: enemySprite, knowledgeWorker: self)
+                    enemies.append(e)
+                    e.move()
+                default:
+                    break
+                }
+            }
+        }
     }
     
     
@@ -149,8 +164,72 @@ class GameScene: SKScene, DecisionPointKnowledgeWorker, SKPhysicsContactDelegate
     
     //find the next place where moving in the current direction
     func findDecisionPoint(_ fromLocation: CGPoint, inDirection: Direction) -> CGPoint? {
-        
+        let fromCol = tiledMap.tileColumnIndex(fromPosition: fromLocation)
+        let fromRow = tiledMap.tileRowIndex(fromPosition: fromLocation)
+        print("fromCol: \(fromCol)")
+        print("fromRow: \(fromRow)")
+        print("inDirection: \(inDirection)")
         switch (inDirection) {
+        case .Right:
+            for col in (fromCol + 1)..<tiledMap.numberOfColumns {
+                print("col: \(col) def: \(tiledMap.tileDefinition(atColumn: col, row: fromRow))")
+                if tiledMap.tileDefinition(atColumn: col, row: fromRow) != nil {
+                    return nil
+                }
+                if (tiledMap.tileDefinition(atColumn: col, row: fromRow - 1) == nil) || (tiledMap.tileDefinition(atColumn: col, row: fromRow + 1) == nil) || (tiledMap.tileDefinition(atColumn: col + 1, row: fromRow) != nil) {
+                    return self.tiledMap.centerOfTile(atColumn: col, row: fromRow)
+                }
+            }
+            return nil
+        case .Left:
+            for col in (0..<(fromCol)).reversed() {
+                print("col: \(col) def: \(tiledMap.tileDefinition(atColumn: col, row: fromRow))")
+                if tiledMap.tileDefinition(atColumn: col, row: fromRow) != nil {
+                    return nil
+                }
+                if (tiledMap.tileDefinition(atColumn: col, row: fromRow - 1) == nil) || (tiledMap.tileDefinition(atColumn: col, row: fromRow + 1) == nil) || (tiledMap.tileDefinition(atColumn: col - 1, row: fromRow) != nil) {
+                    return self.tiledMap.centerOfTile(atColumn: col, row: fromRow)
+                }
+            }
+            return nil
+        case .Up:
+            for row in (fromRow + 1 < tiledMap.numberOfRows ? fromRow + 1 : fromRow)..<tiledMap.numberOfRows {
+                print("row: \(row) def: \(tiledMap.tileDefinition(atColumn: fromCol, row: row))")
+                if row == tiledMap.numberOfRows - 1 && tiledMap.tileDefinition(atColumn: fromCol, row: row) == nil {
+                    let center = self.tiledMap.centerOfTile(atColumn: fromCol, row: row)
+                    return CGPoint(x: center.x, y: center.y + tiledMap.tileSize.height)
+                }
+                if tiledMap.tileDefinition(atColumn: fromCol, row: row) != nil {
+                    return nil
+                }
+                if (tiledMap.tileDefinition(atColumn: fromCol - 1, row: row) == nil) || (tiledMap.tileDefinition(atColumn: fromCol + 1, row: row) == nil) || (tiledMap.tileDefinition(atColumn: fromCol, row: row + 1) != nil) {
+                    return self.tiledMap.centerOfTile(atColumn: fromCol, row: row)
+                }
+            }
+            return nil
+        case .Down:
+            for row in (0..<(fromRow > 0 ? fromRow : 0)).reversed() {
+                print("row: \(row) def: \(tiledMap.tileDefinition(atColumn: fromCol, row: row))")
+                // edge
+                if row == 0 && tiledMap.tileDefinition(atColumn: fromCol, row: row) == nil {
+                    let center = self.tiledMap.centerOfTile(atColumn: fromCol, row: row)
+                    return CGPoint(x: center.x, y: center.y - tiledMap.tileSize.height)
+                }
+                // already at wall
+                if tiledMap.tileDefinition(atColumn: fromCol, row: row) != nil {
+                    return nil
+                }
+                // new decision point
+                if (tiledMap.tileDefinition(atColumn: fromCol - 1, row: row) == nil) || (tiledMap.tileDefinition(atColumn: fromCol + 1, row: row) == nil) || (tiledMap.tileDefinition(atColumn: fromCol, row: row - 1) != nil) {
+                    return self.tiledMap.centerOfTile(atColumn: fromCol, row: row)
+                }
+            }
+            return nil
+        default:  //if .None
+            return nil
+        }
+        
+        /*switch (inDirection) {
         case .Right:
             var tempX: CGFloat
             if (fromLocation.x < 0) {  //deal with negative values
@@ -158,7 +237,7 @@ class GameScene: SKScene, DecisionPointKnowledgeWorker, SKPhysicsContactDelegate
             } else {
                 tempX = round(fromLocation.x) + (tiledMap.tileSize.width - (round(fromLocation.x).truncatingRemainder(dividingBy: tiledMap.tileSize.width))) + (tiledMap.tileSize.width / 2)
             }
-            if (wallLayer.tile(at: CGPoint(x: tempX, y: fromLocation.y)) != nil) {
+            if (tiledMap.tileDefinition(atColumn: CGPoint(x: tempX, y: fromLocation.y)) != nil) {
                 //println("something here at \(tempX), \(fromLocation.y)!")
                 return nil
             } else if (tempX > tiledMap.mapSize.width - tiledMap.tileSize.width) {  //deal with edge of board
@@ -234,7 +313,7 @@ class GameScene: SKScene, DecisionPointKnowledgeWorker, SKPhysicsContactDelegate
             return nil
         default:  //if .None
             return nil
-        }
+        }*/
     }
     
     override func mouseDown(with theEvent: NSEvent) {

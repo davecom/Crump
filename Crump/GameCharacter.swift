@@ -49,17 +49,22 @@ class GameCharacter {
     func move() {
         //if off the board, put at the beginning of the other side of it
         let tempDirection: Direction = wantToGo
+        print("sprite.position: \(sprite.position)")
         if sprite.position.x < (-sprite.frame.size.width / 2 + 2) {
-            sprite.position.x = dpkw.frame.width + sprite.frame.size.width / 2 - 3
+            print("too far left")
+            sprite.position.x = dpkw.tileSetFrame.width + sprite.frame.size.width / 2 - 3
             wantToGo = .Left
-        } else if sprite.position.x > (dpkw.frame.width + sprite.frame.size.width / 2 - 2) {
+        } else if sprite.position.x > (dpkw.tileSetFrame.width + sprite.frame.size.width / 2 - 2) {
+            print("too far right")
             sprite.position.x = -sprite.frame.size.width / 2 + 3
             //println("\(sprite.position)")
             wantToGo = .Right
         } else if sprite.position.y < (-sprite.frame.size.height / 2 + 2) {
-            sprite.position.y = dpkw.frame.height + sprite.frame.size.height / 2 - 3
+            print("too far down")
+            sprite.position.y = dpkw.tileSetFrame.height + sprite.frame.size.height / 2 - 3
             wantToGo = .Down
-        } else if sprite.position.y > (dpkw.frame.height + sprite.frame.size.height / 2 - 2) {
+        } else if sprite.position.y > (dpkw.tileSetFrame.height + sprite.frame.size.height / 2 - 2) {
+            print("too far up")
             sprite.position.y = -sprite.frame.size.height / 2 + 3
             wantToGo = .Up
         }
