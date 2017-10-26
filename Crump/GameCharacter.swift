@@ -71,7 +71,7 @@ class GameCharacter {
         
         //now we're going in the direction we want to
         if let canI = dpkw.findDecisionPoint(sprite.position, inDirection: wantToGo) {
-            //println("Found decision point: \(canI)")
+            print("Found decision point: \(canI)")
             sprite.removeAllActions()
             direction = wantToGo;
             //rotate to be the right direction

@@ -94,8 +94,8 @@ class GameScene: SKScene, DecisionPointKnowledgeWorker, SKPhysicsContactDelegate
         physicsWorld.gravity = CGVector(dx: 0, dy: 0)
         physicsWorld.contactDelegate = self
         
-        print("frame: \(self.frame)")
-        print("tilemapframe: \(tiledMap.frame)")
+        //print("frame: \(self.frame)")
+        //print("tilemapframe: \(tiledMap.frame)")
         
         //preliminary code for future multiplayer support
         for i in 1 ... numPlayers {
@@ -166,14 +166,27 @@ class GameScene: SKScene, DecisionPointKnowledgeWorker, SKPhysicsContactDelegate
     func findDecisionPoint(_ fromLocation: CGPoint, inDirection: Direction) -> CGPoint? {
         let fromCol = tiledMap.tileColumnIndex(fromPosition: fromLocation)
         let fromRow = tiledMap.tileRowIndex(fromPosition: fromLocation)
-        print("fromCol: \(fromCol)")
-        print("fromRow: \(fromRow)")
-        print("inDirection: \(inDirection)")
+        //print("fromCol: \(fromCol)")
+        //print("fromRow: \(fromRow)")
+        //print("inDirection: \(inDirection)")
         switch (inDirection) {
         case .Right:
-            for col in (fromCol + 1)..<tiledMap.numberOfColumns {
-                print("col: \(col) def: \(tiledMap.tileDefinition(atColumn: col, row: fromRow))")
+            if fromCol >= tiledMap.numberOfColumns && tiledMap.tileDefinition(atColumn: 0, row: fromRow) == nil {
+                
+                let center = self.tiledMap.centerOfTile(atColumn: fromCol, row: fromRow)
+                let toPoint = CGPoint(x: center.x + tiledMap.tileSize.width, y: center.y)
+                print("fromCol > rightside; sending to \(toPoint)")
+                return toPoint
+            }
+            for col in (fromCol + 1 < tiledMap.numberOfColumns ? fromCol + 1 : fromCol)..<tiledMap.numberOfColumns {
+                //print("row: \(row) def: \(tiledMap.tileDefinition(atColumn: fromCol, row: row))")
+                if col == tiledMap.numberOfColumns - 1 && tiledMap.tileDefinition(atColumn: col, row: fromRow) == nil {
+                    print("hit edge")
+                    let center = self.tiledMap.centerOfTile(atColumn: col, row: fromRow)
+                    return CGPoint(x: center.x + tiledMap.tileSize.width, y: center.y)
+                }
                 if tiledMap.tileDefinition(atColumn: col, row: fromRow) != nil {
+                    print("already at wall")
                     return nil
                 }
                 if (tiledMap.tileDefinition(atColumn: col, row: fromRow - 1) == nil) || (tiledMap.tileDefinition(atColumn: col, row: fromRow + 1) == nil) || (tiledMap.tileDefinition(atColumn: col + 1, row: fromRow) != nil) {
@@ -182,9 +195,22 @@ class GameScene: SKScene, DecisionPointKnowledgeWorker, SKPhysicsContactDelegate
             }
             return nil
         case .Left:
-            for col in (0..<(fromCol)).reversed() {
-                print("col: \(col) def: \(tiledMap.tileDefinition(atColumn: col, row: fromRow))")
+            if fromCol < 1 && tiledMap.tileDefinition(atColumn: tiledMap.numberOfColumns - 1, row: fromRow) == nil {
+                
+                let center = self.tiledMap.centerOfTile(atColumn: fromCol, row: fromRow)
+                let toPoint = CGPoint(x: center.x - tiledMap.tileSize.width, y: center.y)
+                print("fromCol < 0; sending to \(toPoint)")
+                return toPoint
+            }
+            for col in (0..<(fromCol > 0 ? fromCol : 0)).reversed() {
+                //print("row: \(row) def: \(tiledMap.tileDefinition(atColumn: fromCol, row: row))")
+                if col == 0 && tiledMap.tileDefinition(atColumn: col, row: fromRow) == nil {
+                    print("hit edge")
+                    let center = self.tiledMap.centerOfTile(atColumn: col, row: fromRow)
+                    return CGPoint(x: center.x - tiledMap.tileSize.width, y: center.y)
+                }
                 if tiledMap.tileDefinition(atColumn: col, row: fromRow) != nil {
+                    print("already at wall")
                     return nil
                 }
                 if (tiledMap.tileDefinition(atColumn: col, row: fromRow - 1) == nil) || (tiledMap.tileDefinition(atColumn: col, row: fromRow + 1) == nil) || (tiledMap.tileDefinition(atColumn: col - 1, row: fromRow) != nil) {
@@ -193,13 +219,22 @@ class GameScene: SKScene, DecisionPointKnowledgeWorker, SKPhysicsContactDelegate
             }
             return nil
         case .Up:
+            if fromRow >= tiledMap.numberOfRows && tiledMap.tileDefinition(atColumn: fromCol, row: 0) == nil {
+                
+                let center = self.tiledMap.centerOfTile(atColumn: fromCol, row: fromRow)
+                let toPoint = CGPoint(x: center.x, y: center.y + tiledMap.tileSize.height)
+                print("fromRow > top; sending to \(toPoint)")
+                return toPoint
+            }
             for row in (fromRow + 1 < tiledMap.numberOfRows ? fromRow + 1 : fromRow)..<tiledMap.numberOfRows {
-                print("row: \(row) def: \(tiledMap.tileDefinition(atColumn: fromCol, row: row))")
+                //print("row: \(row) def: \(tiledMap.tileDefinition(atColumn: fromCol, row: row))")
                 if row == tiledMap.numberOfRows - 1 && tiledMap.tileDefinition(atColumn: fromCol, row: row) == nil {
+                    print("hit edge")
                     let center = self.tiledMap.centerOfTile(atColumn: fromCol, row: row)
                     return CGPoint(x: center.x, y: center.y + tiledMap.tileSize.height)
                 }
                 if tiledMap.tileDefinition(atColumn: fromCol, row: row) != nil {
+                    print("already at wall")
                     return nil
                 }
                 if (tiledMap.tileDefinition(atColumn: fromCol - 1, row: row) == nil) || (tiledMap.tileDefinition(atColumn: fromCol + 1, row: row) == nil) || (tiledMap.tileDefinition(atColumn: fromCol, row: row + 1) != nil) {
@@ -208,22 +243,37 @@ class GameScene: SKScene, DecisionPointKnowledgeWorker, SKPhysicsContactDelegate
             }
             return nil
         case .Down:
+            print("trying to find decision point down")
+            if fromRow < 1 && tiledMap.tileDefinition(atColumn: fromCol, row: tiledMap.numberOfRows - 1) == nil {
+                
+                let center = self.tiledMap.centerOfTile(atColumn: fromCol, row: fromRow)
+                print("center: \(center)")
+                print("height: \(tiledMap.tileSize.height)")
+                let toPoint = CGPoint(x: center.x, y: -tiledMap.tileSize.height)
+                print("fromRow < 1; sending to \(toPoint)")
+                return toPoint
+            }
             for row in (0..<(fromRow > 0 ? fromRow : 0)).reversed() {
-                print("row: \(row) def: \(tiledMap.tileDefinition(atColumn: fromCol, row: row))")
+                //print("row: \(row) def: \(tiledMap.tileDefinition(atColumn: fromCol, row: row))")
                 // edge
                 if row == 0 && tiledMap.tileDefinition(atColumn: fromCol, row: row) == nil {
+                    print("hit edge")
                     let center = self.tiledMap.centerOfTile(atColumn: fromCol, row: row)
                     return CGPoint(x: center.x, y: center.y - tiledMap.tileSize.height)
                 }
                 // already at wall
                 if tiledMap.tileDefinition(atColumn: fromCol, row: row) != nil {
+                    print("already at wall")
                     return nil
                 }
                 // new decision point
-                if (tiledMap.tileDefinition(atColumn: fromCol - 1, row: row) == nil) || (tiledMap.tileDefinition(atColumn: fromCol + 1, row: row) == nil) || (tiledMap.tileDefinition(atColumn: fromCol, row: row - 1) != nil) {
+                if (tiledMap.tileDefinition(atColumn: fromCol - 1, row: row) == nil) || (tiledMap.tileDefinition(atColumn:
+                    fromCol + 1, row: row) == nil) || (tiledMap.tileDefinition(atColumn: fromCol, row: row - 1) != nil) {
+                    print("found decision point")
                     return self.tiledMap.centerOfTile(atColumn: fromCol, row: row)
                 }
             }
+            print("no match down")
             return nil
         default:  //if .None
             return nil
@@ -332,6 +382,7 @@ class GameScene: SKScene, DecisionPointKnowledgeWorker, SKPhysicsContactDelegate
                     if let tempDirection = player.keyBindings["\(letter)"] {
                         player.wantToGo = tempDirection
                         if (player.direction == .None || player.wantToGo == player.direction.opposite) {  //if player's not moving, move him
+                            print("trying to move")
                             player.move()
                         }
                     }
