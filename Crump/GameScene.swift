@@ -120,12 +120,12 @@ class GameScene: SKScene, DecisionPointKnowledgeWorker, SKPhysicsContactDelegate
             if let name = child.name {
                 switch (name) {
                 case "EightBall":
-                    let enemySprite: SKSpriteNode = tiledMap.childNode(withName: name) as! SKSpriteNode
+                    let enemySprite: SKSpriteNode = self.childNode(withName: name) as! SKSpriteNode
                     let e = EightBall(sprite: enemySprite, knowledgeWorker: self)
                     enemies.append(e)
                     e.move()
                 case "Sun":
-                    let enemySprite: SKSpriteNode = tiledMap.childNode(withName: name) as! SKSpriteNode
+                    let enemySprite: SKSpriteNode = self.childNode(withName: name) as! SKSpriteNode
                     let e = Sun(sprite: enemySprite, knowledgeWorker: self)
                     enemies.append(e)
                     e.move()
