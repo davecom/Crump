@@ -26,6 +26,8 @@ class GameCharacter {
     var wantToGo: Direction = .None  //where trying to go after next decision point
     let dpkw: DecisionPointKnowledgeWorker
     var speed: CGFloat = CGFloat(0.01)  // seconds per pixel
+    let MOVE_KEY: String = "MoveActionKey"
+    let ROTATE_KEY: String = "RotateActionKey"
     
     init(sprite: SKSpriteNode, knowledgeWorker: DecisionPointKnowledgeWorker, categoryBitMask: UInt32, contactTestBitMask: UInt32) {
         self.sprite = sprite
@@ -72,21 +74,25 @@ class GameCharacter {
         //now we're going in the direction we want to
         if let canI = dpkw.findDecisionPoint(sprite.position, inDirection: wantToGo) {
             print("Found decision point: \(canI)")
-            sprite.removeAllActions()
+            //sprite.removeAllActions()
+            sprite.removeAction(forKey: ROTATE_KEY)
+            sprite.removeAction(forKey: MOVE_KEY)
             direction = wantToGo;
             //rotate to be the right direction
-            sprite.run(SKAction.rotate(toAngle: direction.radians, duration: 0.1, shortestUnitArc: true))
+            sprite.run(SKAction.rotate(toAngle: direction.radians, duration: 0.1, shortestUnitArc: true), withKey: ROTATE_KEY)
             sprite.run(SKAction.sequence([SKAction.move(to: canI, duration: calcDuration(canI)), SKAction.run({
                 self.move()
-                })]))
+            })]), withKey: MOVE_KEY)
         } else if let canI = dpkw.findDecisionPoint(sprite.position, inDirection: direction) {
             //println("Found decision point: \(canI)")
-            sprite.removeAllActions()
+            //sprite.removeAllActions()
+            sprite.removeAction(forKey: ROTATE_KEY)
+            sprite.removeAction(forKey: MOVE_KEY)
             //rotate to be the right direction
-            sprite.run(SKAction.rotate(toAngle: direction.radians, duration: 0.1, shortestUnitArc: true))
+            sprite.run(SKAction.rotate(toAngle: direction.radians, duration: 0.1, shortestUnitArc: true), withKey: ROTATE_KEY)
             sprite.run(SKAction.sequence([SKAction.move(to: canI, duration: calcDuration(canI)), SKAction.run({
                 self.move()
-                })]))
+                })]), withKey: MOVE_KEY)
         } else {
             direction = .None
             reachedDeadEnd()
