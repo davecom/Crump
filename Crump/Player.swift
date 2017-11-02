@@ -39,7 +39,7 @@ class Player: GameCharacter {
                 keyBindings = ["4": .Left, "8": .Up, "5": .Down, "6": .Right]
             }
         }
-        super.init(sprite: sprite, knowledgeWorker: knowledgeWorker, categoryBitMask: PhysicsCategory.Player, contactTestBitMask: PhysicsCategory.Enemy)
+        super.init(sprite: sprite, knowledgeWorker: knowledgeWorker, categoryBitMask: PhysicsCategory.Player, contactTestBitMask: PhysicsCategory.PlayerContacts)
     }
 
 }

@@ -51,7 +51,7 @@ class GameCharacter {
     func move() {
         //if off the board, put at the beginning of the other side of it
         let tempDirection: Direction = wantToGo
-        print("sprite.position: \(sprite.position)")
+        //print("sprite.position: \(sprite.position)")
         if sprite.position.x < (-sprite.frame.size.width / 2 + 2) {
             print("too far left")
             sprite.position.x = dpkw.tileSetFrame.width + sprite.frame.size.width / 2 - 3
@@ -73,7 +73,7 @@ class GameCharacter {
         
         //now we're going in the direction we want to
         if let canI = dpkw.findDecisionPoint(sprite.position, inDirection: wantToGo) {
-            print("Found decision point: \(canI)")
+            //print("Found decision point: \(canI)")
             //sprite.removeAllActions()
             sprite.removeAction(forKey: ROTATE_KEY)
             sprite.removeAction(forKey: MOVE_KEY)

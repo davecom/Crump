@@ -52,8 +52,9 @@ struct PhysicsCategory {
     static let None : UInt32 = 0
     static let All : UInt32 = UInt32.max
     static let Enemy : UInt32 = 1
-    static let Projectile: UInt32 = 2
-    static let Player: UInt32 = 3
+    static let PowerUp: UInt32 = 2
+    static let Player: UInt32 = 4
+    static let PlayerContacts: UInt32 = 3
 }
 
 class GameScene: SKScene, DecisionPointKnowledgeWorker, SKPhysicsContactDelegate {
@@ -175,18 +176,18 @@ class GameScene: SKScene, DecisionPointKnowledgeWorker, SKPhysicsContactDelegate
                 
                 let center = self.tiledMap.centerOfTile(atColumn: fromCol, row: fromRow)
                 let toPoint = CGPoint(x: center.x + tiledMap.tileSize.width, y: center.y)
-                print("fromCol > rightside; sending to \(toPoint)")
+                //print("fromCol > rightside; sending to \(toPoint)")
                 return toPoint
             }
             for col in (fromCol + 1 < tiledMap.numberOfColumns ? fromCol + 1 : fromCol)..<tiledMap.numberOfColumns {
                 //print("row: \(row) def: \(tiledMap.tileDefinition(atColumn: fromCol, row: row))")
                 if col == tiledMap.numberOfColumns - 1 && tiledMap.tileDefinition(atColumn: col, row: fromRow) == nil {
-                    print("hit edge")
+                    //print("hit edge")
                     let center = self.tiledMap.centerOfTile(atColumn: col, row: fromRow)
                     return CGPoint(x: center.x + tiledMap.tileSize.width, y: center.y)
                 }
                 if tiledMap.tileDefinition(atColumn: col, row: fromRow) != nil {
-                    print("already at wall")
+                    //print("already at wall")
                     return nil
                 }
                 if (tiledMap.tileDefinition(atColumn: col, row: fromRow - 1) == nil) || (tiledMap.tileDefinition(atColumn: col, row: fromRow + 1) == nil) || (tiledMap.tileDefinition(atColumn: col + 1, row: fromRow) != nil) {
@@ -199,18 +200,18 @@ class GameScene: SKScene, DecisionPointKnowledgeWorker, SKPhysicsContactDelegate
                 
                 let center = self.tiledMap.centerOfTile(atColumn: fromCol, row: fromRow)
                 let toPoint = CGPoint(x: center.x - tiledMap.tileSize.width, y: center.y)
-                print("fromCol < 0; sending to \(toPoint)")
+                //print("fromCol < 0; sending to \(toPoint)")
                 return toPoint
             }
             for col in (0..<(fromCol > 0 ? fromCol : 0)).reversed() {
                 //print("row: \(row) def: \(tiledMap.tileDefinition(atColumn: fromCol, row: row))")
                 if col == 0 && tiledMap.tileDefinition(atColumn: col, row: fromRow) == nil {
-                    print("hit edge")
+                    //print("hit edge")
                     let center = self.tiledMap.centerOfTile(atColumn: col, row: fromRow)
                     return CGPoint(x: center.x - tiledMap.tileSize.width, y: center.y)
                 }
                 if tiledMap.tileDefinition(atColumn: col, row: fromRow) != nil {
-                    print("already at wall")
+                    //print("already at wall")
                     return nil
                 }
                 if (tiledMap.tileDefinition(atColumn: col, row: fromRow - 1) == nil) || (tiledMap.tileDefinition(atColumn: col, row: fromRow + 1) == nil) || (tiledMap.tileDefinition(atColumn: col - 1, row: fromRow) != nil) {
@@ -223,18 +224,18 @@ class GameScene: SKScene, DecisionPointKnowledgeWorker, SKPhysicsContactDelegate
                 
                 let center = self.tiledMap.centerOfTile(atColumn: fromCol, row: fromRow)
                 let toPoint = CGPoint(x: center.x, y: center.y + tiledMap.tileSize.height)
-                print("fromRow > top; sending to \(toPoint)")
+                //print("fromRow > top; sending to \(toPoint)")
                 return toPoint
             }
             for row in (fromRow + 1 < tiledMap.numberOfRows ? fromRow + 1 : fromRow)..<tiledMap.numberOfRows {
                 //print("row: \(row) def: \(tiledMap.tileDefinition(atColumn: fromCol, row: row))")
                 if row == tiledMap.numberOfRows - 1 && tiledMap.tileDefinition(atColumn: fromCol, row: row) == nil {
-                    print("hit edge")
+                    //print("hit edge")
                     let center = self.tiledMap.centerOfTile(atColumn: fromCol, row: row)
                     return CGPoint(x: center.x, y: center.y + tiledMap.tileSize.height)
                 }
                 if tiledMap.tileDefinition(atColumn: fromCol, row: row) != nil {
-                    print("already at wall")
+                    //print("already at wall")
                     return nil
                 }
                 if (tiledMap.tileDefinition(atColumn: fromCol - 1, row: row) == nil) || (tiledMap.tileDefinition(atColumn: fromCol + 1, row: row) == nil) || (tiledMap.tileDefinition(atColumn: fromCol, row: row + 1) != nil) {
@@ -243,37 +244,37 @@ class GameScene: SKScene, DecisionPointKnowledgeWorker, SKPhysicsContactDelegate
             }
             return nil
         case .Down:
-            print("trying to find decision point down")
+            //print("trying to find decision point down")
             if fromRow < 1 && tiledMap.tileDefinition(atColumn: fromCol, row: tiledMap.numberOfRows - 1) == nil {
                 
                 let center = self.tiledMap.centerOfTile(atColumn: fromCol, row: fromRow)
-                print("center: \(center)")
-                print("height: \(tiledMap.tileSize.height)")
+                //print("center: \(center)")
+                //print("height: \(tiledMap.tileSize.height)")
                 let toPoint = CGPoint(x: center.x, y: -tiledMap.tileSize.height)
-                print("fromRow < 1; sending to \(toPoint)")
+                //print("fromRow < 1; sending to \(toPoint)")
                 return toPoint
             }
             for row in (0..<(fromRow > 0 ? fromRow : 0)).reversed() {
                 //print("row: \(row) def: \(tiledMap.tileDefinition(atColumn: fromCol, row: row))")
                 // edge
                 if row == 0 && tiledMap.tileDefinition(atColumn: fromCol, row: row) == nil {
-                    print("hit edge")
+                    //print("hit edge")
                     let center = self.tiledMap.centerOfTile(atColumn: fromCol, row: row)
                     return CGPoint(x: center.x, y: center.y - tiledMap.tileSize.height)
                 }
                 // already at wall
                 if tiledMap.tileDefinition(atColumn: fromCol, row: row) != nil {
-                    print("already at wall")
+                    //print("already at wall")
                     return nil
                 }
                 // new decision point
                 if (tiledMap.tileDefinition(atColumn: fromCol - 1, row: row) == nil) || (tiledMap.tileDefinition(atColumn:
                     fromCol + 1, row: row) == nil) || (tiledMap.tileDefinition(atColumn: fromCol, row: row - 1) != nil) {
-                    print("found decision point")
+                    //print("found decision point")
                     return self.tiledMap.centerOfTile(atColumn: fromCol, row: row)
                 }
             }
-            print("no match down")
+            //print("no match down")
             return nil
         default:  //if .None
             return nil
@@ -373,7 +374,7 @@ class GameScene: SKScene, DecisionPointKnowledgeWorker, SKPhysicsContactDelegate
     
     override func keyDown(with theEvent: NSEvent) {
         let temp: String = theEvent.characters!
-        for letter in temp.characters {
+        for letter in temp {
             switch (letter) {
             case "p":
                 pause()
@@ -382,7 +383,7 @@ class GameScene: SKScene, DecisionPointKnowledgeWorker, SKPhysicsContactDelegate
                     if let tempDirection = player.keyBindings["\(letter)"] {
                         player.wantToGo = tempDirection
                         if (player.direction == .None || player.wantToGo == player.direction.opposite) {  //if player's not moving, move him
-                            print("trying to move")
+                            //print("trying to move")
                             player.move()
                         }
                     }
@@ -402,12 +403,17 @@ class GameScene: SKScene, DecisionPointKnowledgeWorker, SKPhysicsContactDelegate
     //MARK: SKPhysics Delegate
     //var times: Int = 1
     func didBegin(_ contact: SKPhysicsContact) {
+        print("contact")
         let a: SKPhysicsBody = contact.bodyA
-        //let b: SKPhysicsBody = contact.bodyB
-        if (a.categoryBitMask == PhysicsCategory.Player) {
-            //println("Player hit something \(times)")
+        
+        let b: SKPhysicsBody = contact.bodyB
+        if (a.categoryBitMask == PhysicsCategory.Player || b.categoryBitMask == PhysicsCategory.Player) {
+            print("Player hit something")
             //times++
-            return
+            if b.categoryBitMask == PhysicsCategory.PowerUp || a.categoryBitMask == PhysicsCategory.PowerUp {
+                print("hit power up")
+                b.node?.removeFromParent()
+            }
         }
     }
 }
