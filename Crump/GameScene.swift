@@ -409,8 +409,10 @@ class GameScene: SKScene, DecisionPointKnowledgeWorker, SKPhysicsContactDelegate
         switch (a.categoryBitMask, b.categoryBitMask) {
         case (PhysicsCategory.Player, PhysicsCategory.PowerUp):
             b.node?.removeFromParent()
+            players.forEach{ $0.crump() }
         case (PhysicsCategory.PowerUp, PhysicsCategory.Player):
             a.node?.removeFromParent()
+            players.forEach{ $0.crump() }
         default:
             break
         }

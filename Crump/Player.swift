@@ -21,6 +21,9 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 import SpriteKit
 
 class Player: GameCharacter {
+    var crumpMode: Bool = false
+    private var CRUMP_KEY = "CRUMP_KEY"
+    var crumpTime: TimeInterval = 10
     var score: Int = 0
     var lives: Int = 3
     //var playerNumber: Int  //player 1, player 2, etc mostly for key binding
@@ -40,6 +43,22 @@ class Player: GameCharacter {
             }
         }
         super.init(sprite: sprite, knowledgeWorker: knowledgeWorker, categoryBitMask: PhysicsCategory.Player, contactTestBitMask: PhysicsCategory.PlayerContacts)
+    }
+    
+    func crump() {
+        print("crump")
+        crumpMode = true
+        sprite.removeAction(forKey: CRUMP_KEY)
+        sprite.run(SKAction.sequence([
+            SKAction.group([SKAction.scale(by: 1.25, duration: 1),
+                            SKAction.colorize(with: NSColor.red, colorBlendFactor: 0.5, duration: 1)]),
+            SKAction.wait(forDuration: crumpTime),
+            SKAction.group([SKAction.scale(to: 1.0, duration: 1),
+                            SKAction.colorize(with: NSColor.red, colorBlendFactor: 0.0, duration: 1)]),
+            SKAction.run { [weak self] in
+                self?.crumpMode = false
+            }
+            ]), withKey: CRUMP_KEY)
     }
 
 }
