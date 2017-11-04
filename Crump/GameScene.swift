@@ -405,15 +405,14 @@ class GameScene: SKScene, DecisionPointKnowledgeWorker, SKPhysicsContactDelegate
     func didBegin(_ contact: SKPhysicsContact) {
         print("contact")
         let a: SKPhysicsBody = contact.bodyA
-        
         let b: SKPhysicsBody = contact.bodyB
-        if (a.categoryBitMask == PhysicsCategory.Player || b.categoryBitMask == PhysicsCategory.Player) {
-            print("Player hit something")
-            //times++
-            if b.categoryBitMask == PhysicsCategory.PowerUp || a.categoryBitMask == PhysicsCategory.PowerUp {
-                print("hit power up")
-                b.node?.removeFromParent()
-            }
+        switch (a.categoryBitMask, b.categoryBitMask) {
+        case (PhysicsCategory.Player, PhysicsCategory.PowerUp):
+            b.node?.removeFromParent()
+        case (PhysicsCategory.PowerUp, PhysicsCategory.Player):
+            a.node?.removeFromParent()
+        default:
+            break
         }
     }
 }
