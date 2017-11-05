@@ -21,10 +21,10 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 import SpriteKit
 
 class GameCharacter {
-    var sprite: SKSpriteNode
+    unowned var sprite: SKSpriteNode
     var direction: Direction = .None
     var wantToGo: Direction = .None  //where trying to go after next decision point
-    let dpkw: DecisionPointKnowledgeWorker
+    unowned let dpkw: DecisionPointKnowledgeWorker
     var speed: CGFloat = CGFloat(0.01)  // seconds per pixel
     let MOVE_KEY: String = "MoveActionKey"
     let ROTATE_KEY: String = "RotateActionKey"
@@ -52,22 +52,22 @@ class GameCharacter {
         //if off the board, put at the beginning of the other side of it
         let tempDirection: Direction = wantToGo
         //print("sprite.position: \(sprite.position)")
-        if sprite.position.x < (-sprite.frame.size.width / 2 + 2) {
+        if sprite.position.x < (-sprite.frame.size.width / 3) {
             print("too far left")
-            sprite.position.x = dpkw.tileSetFrame.width + sprite.frame.size.width / 2 - 3
+            sprite.position.x = dpkw.tileSetFrame.width + sprite.frame.size.width / 3
             wantToGo = .Left
-        } else if sprite.position.x > (dpkw.tileSetFrame.width + sprite.frame.size.width / 2 - 2) {
+        } else if sprite.position.x > (dpkw.tileSetFrame.width + sprite.frame.size.width / 3) {
             print("too far right")
-            sprite.position.x = -sprite.frame.size.width / 2 + 3
+            sprite.position.x = -sprite.frame.size.width / 3
             //println("\(sprite.position)")
             wantToGo = .Right
-        } else if sprite.position.y < (-sprite.frame.size.height / 2 + 2) {
+        } else if sprite.position.y < (-sprite.frame.size.height / 3) {
             print("too far down")
-            sprite.position.y = dpkw.tileSetFrame.height + sprite.frame.size.height / 2 - 3
+            sprite.position.y = dpkw.tileSetFrame.height + sprite.frame.size.height / 3
             wantToGo = .Down
-        } else if sprite.position.y > (dpkw.tileSetFrame.height + sprite.frame.size.height / 2 - 2) {
+        } else if sprite.position.y > (dpkw.tileSetFrame.height + sprite.frame.size.height / 3) {
             print("too far up")
-            sprite.position.y = -sprite.frame.size.height / 2 + 3
+            sprite.position.y = -sprite.frame.size.height / 3
             wantToGo = .Up
         }
         

@@ -14,6 +14,10 @@
 		551C593719876503000E067F /* GameCharacter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 551C593619876503000E067F /* GameCharacter.swift */; };
 		551C593919877902000E067F /* EightBall.swift in Sources */ = {isa = PBXBuildFile; fileRef = 551C593819877902000E067F /* EightBall.swift */; };
 		55A3D1C919A7FC5600172F16 /* Sun.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55A3D1C819A7FC5600172F16 /* Sun.swift */; };
+		55A5C63D1FAEBD8F00094828 /* aw.wav in Resources */ = {isa = PBXBuildFile; fileRef = 55A5C6391FAEBD8E00094828 /* aw.wav */; };
+		55A5C63E1FAEBD8F00094828 /* crump.wav in Resources */ = {isa = PBXBuildFile; fileRef = 55A5C63A1FAEBD8F00094828 /* crump.wav */; };
+		55A5C63F1FAEBD8F00094828 /* switch.wav in Resources */ = {isa = PBXBuildFile; fileRef = 55A5C63B1FAEBD8F00094828 /* switch.wav */; };
+		55A5C6401FAEBD8F00094828 /* munch.wav in Resources */ = {isa = PBXBuildFile; fileRef = 55A5C63C1FAEBD8F00094828 /* munch.wav */; };
 		55AB6D15197F8BA4009FED3F /* Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55AB6D14197F8BA4009FED3F /* Util.swift */; };
 		55BFEC331E1F5E1F00CC3919 /* CrumpTileSet.sks in Resources */ = {isa = PBXBuildFile; fileRef = 55BFEC311E1F5E1F00CC3919 /* CrumpTileSet.sks */; };
 		55BFEC341E1F5E1F00CC3919 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 55BFEC321E1F5E1F00CC3919 /* Assets.xcassets */; };
@@ -32,6 +36,10 @@
 		551C593619876503000E067F /* GameCharacter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameCharacter.swift; sourceTree = "<group>"; };
 		551C593819877902000E067F /* EightBall.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EightBall.swift; sourceTree = "<group>"; };
 		55A3D1C819A7FC5600172F16 /* Sun.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Sun.swift; sourceTree = "<group>"; };
+		55A5C6391FAEBD8E00094828 /* aw.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = aw.wav; sourceTree = "<group>"; };
+		55A5C63A1FAEBD8F00094828 /* crump.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = crump.wav; sourceTree = "<group>"; };
+		55A5C63B1FAEBD8F00094828 /* switch.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = switch.wav; sourceTree = "<group>"; };
+		55A5C63C1FAEBD8F00094828 /* munch.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = munch.wav; sourceTree = "<group>"; };
 		55AB6D14197F8BA4009FED3F /* Util.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Util.swift; sourceTree = "<group>"; };
 		55BFEC311E1F5E1F00CC3919 /* CrumpTileSet.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = CrumpTileSet.sks; sourceTree = "<group>"; };
 		55BFEC321E1F5E1F00CC3919 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -81,6 +89,7 @@
 				550617211960026200E1F0CC /* Images.xcassets */,
 				550617231960026200E1F0CC /* MainMenu.xib */,
 				55BFEC351E1F621100CC3919 /* Level1.sks */,
+				55A5C6301FAEB07900094828 /* Sound Effects */,
 				550617171960026200E1F0CC /* Supporting Files */,
 				55BFEC311E1F5E1F00CC3919 /* CrumpTileSet.sks */,
 				55BFEC321E1F5E1F00CC3919 /* Assets.xcassets */,
@@ -94,6 +103,17 @@
 				550617181960026200E1F0CC /* Info.plist */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		55A5C6301FAEB07900094828 /* Sound Effects */ = {
+			isa = PBXGroup;
+			children = (
+				55A5C6391FAEBD8E00094828 /* aw.wav */,
+				55A5C63A1FAEBD8F00094828 /* crump.wav */,
+				55A5C63C1FAEBD8F00094828 /* munch.wav */,
+				55A5C63B1FAEBD8F00094828 /* switch.wav */,
+			);
+			name = "Sound Effects";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -156,9 +176,13 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				55A5C63E1FAEBD8F00094828 /* crump.wav in Resources */,
+				55A5C63D1FAEBD8F00094828 /* aw.wav in Resources */,
+				55A5C63F1FAEBD8F00094828 /* switch.wav in Resources */,
 				550617221960026200E1F0CC /* Images.xcassets in Resources */,
 				55BFEC331E1F5E1F00CC3919 /* CrumpTileSet.sks in Resources */,
 				55BFEC341E1F5E1F00CC3919 /* Assets.xcassets in Resources */,
+				55A5C6401FAEBD8F00094828 /* munch.wav in Resources */,
 				550617251960026200E1F0CC /* MainMenu.xib in Resources */,
 				55BFEC361E1F621100CC3919 /* Level1.sks in Resources */,
 			);

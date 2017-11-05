@@ -20,7 +20,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 
 import SpriteKit
 
-protocol DecisionPointKnowledgeWorker {
+protocol DecisionPointKnowledgeWorker: class {
     var tileSetFrame: CGRect { get }
     var playersLocation: [CGPoint] { get }  //location of player(s) on screen
     func findDecisionPoint(_ fromLocation: CGPoint, inDirection: Direction) -> CGPoint?
@@ -62,6 +62,9 @@ class GameScene: SKScene, DecisionPointKnowledgeWorker, SKPhysicsContactDelegate
     var level: Int = 1
     var players: [Player] = []
     var enemies: [Enemy] = []
+    
+    var soundNames: [String] = ["crump.wav", "munch.wav", "switch.wav", "aw.wav"]
+    var sounds: [String: SKAction] = [:]
     
     var tileSetFrame: CGRect {
         return tiledMap.frame
@@ -135,6 +138,11 @@ class GameScene: SKScene, DecisionPointKnowledgeWorker, SKPhysicsContactDelegate
                 }
             }
         }
+        
+        // setup sounds
+        sounds = Dictionary<String, SKAction>(uniqueKeysWithValues: zip(soundNames, soundNames.map {
+            SKAction.playSoundFileNamed($0, waitForCompletion: false)
+        }))
     }
     
     
@@ -410,9 +418,25 @@ class GameScene: SKScene, DecisionPointKnowledgeWorker, SKPhysicsContactDelegate
         case (PhysicsCategory.Player, PhysicsCategory.PowerUp):
             b.node?.removeFromParent()
             players.forEach{ $0.crump() }
+            self.run(sounds["crump.wav"]!)
         case (PhysicsCategory.PowerUp, PhysicsCategory.Player):
             a.node?.removeFromParent()
             players.forEach{ $0.crump() }
+            self.run(sounds["crump.wav"]!)
+        case (PhysicsCategory.Player, PhysicsCategory.Enemy):
+            if players[0].crumpMode {
+                b.node?.removeFromParent()
+                self.run(sounds["munch.wav"]!)
+            } else {
+                self.run(sounds["aw.wav"]!)
+            }
+        case (PhysicsCategory.Enemy, PhysicsCategory.Player):
+            if players[0].crumpMode {
+                a.node?.removeFromParent()
+                self.run(sounds["munch.wav"]!)
+            } else {
+                self.run(sounds["aw.wav"]!)
+            }
         default:
             break
         }

@@ -29,6 +29,8 @@ class Player: GameCharacter {
     //var playerNumber: Int  //player 1, player 2, etc mostly for key binding
     var keyBindings: [String: Direction] = Dictionary<String, Direction>()
     
+    let switchSound: SKAction = SKAction.playSoundFileNamed("switch.wav", waitForCompletion: false)
+    
     init(sprite: SKSpriteNode, knowledgeWorker: DecisionPointKnowledgeWorker, playerNumber: Int) {
         //self.playerNumber = playerNumber
         if let tempKeyBindings = UserDefaults.standard.dictionary(forKey: "player\(playerNumber)KeyBindings"){
@@ -45,12 +47,20 @@ class Player: GameCharacter {
         super.init(sprite: sprite, knowledgeWorker: knowledgeWorker, categoryBitMask: PhysicsCategory.Player, contactTestBitMask: PhysicsCategory.PlayerContacts)
     }
     
+    override func move() {
+        //let lastDirection = direction
+        super.move()
+        /*if direction != lastDirection {
+            self.sprite.run(switchSound)
+        }*/
+    }
+    
     func crump() {
         print("crump")
         crumpMode = true
         sprite.removeAction(forKey: CRUMP_KEY)
         sprite.run(SKAction.sequence([
-            SKAction.group([SKAction.scale(by: 1.25, duration: 1),
+            SKAction.group([SKAction.scale(to: 1.25, duration: 1),
                             SKAction.colorize(with: NSColor.red, colorBlendFactor: 0.5, duration: 1)]),
             SKAction.wait(forDuration: crumpTime),
             SKAction.group([SKAction.scale(to: 1.0, duration: 1),
