@@ -54,7 +54,8 @@ struct PhysicsCategory {
     static let Enemy : UInt32 = 1
     static let PowerUp: UInt32 = 2
     static let Player: UInt32 = 4
-    static let PlayerContacts: UInt32 = 3
+    static let Life: UInt32 = 8
+    static let PlayerContacts: UInt32 = 11
 }
 
 class GameScene: SKScene, DecisionPointKnowledgeWorker, SKPhysicsContactDelegate {
@@ -423,6 +424,14 @@ class GameScene: SKScene, DecisionPointKnowledgeWorker, SKPhysicsContactDelegate
             a.node?.removeFromParent()
             players.forEach{ $0.crump() }
             self.run(sounds["crump.wav"]!)
+        case (PhysicsCategory.Player, PhysicsCategory.Life):
+            b.node?.removeFromParent()
+            players.forEach{ $0.lives += 1 }
+            self.run(sounds["switch.wav"]!)
+        case (PhysicsCategory.Life, PhysicsCategory.Player):
+            a.node?.removeFromParent()
+            players.forEach{ $0.lives += 1 }
+            self.run(sounds["switch.wav"]!)
         case (PhysicsCategory.Player, PhysicsCategory.Enemy):
             if players[0].crumpMode {
                 b.node?.removeFromParent()
